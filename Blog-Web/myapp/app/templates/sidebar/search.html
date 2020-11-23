@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %} SEARCH {% endblock %}
+
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <!-- Blog Entries Column -->
+    <div class="col-md-8">
+      <h1 class="my-4">SEARCH
+        <small></small>
+      </h1>
+
+      <!-- Blog Post -->
+      {% for post in posts.items %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">{{ post.title }}</h2>
+          <p class="card-text">{{ post.brief }}</p>
+          <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <div class="card-footer text-muted">
+          Posted on {{ post.created_at }} by
+          <a href="#">{{ post.user.username }}</a>
+        </div>
+      </div>
+      {% endfor %}
+
+
+      <!-- Pagination -->
+
+      {% include 'pagenation.html' %}
+    </div>
+
+    <!-- Sidebar Widgets Column -->
+    {% include 'sidebar/sidebar.html' %}
+  </div>
+  <!-- /.row -->
+</div>
+
+{% endblock %}

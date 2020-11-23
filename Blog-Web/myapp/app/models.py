@@ -15,7 +15,7 @@ class Users(db.Model):
     deleted_at = db.Column(db.DateTime, default=None)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-    username = db.Column(db.String(80), nullable=False)
+    username = db.Column(db.String(80), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
     name = db.Column(db.String(80))
     email = db.Column(db.String(80))
@@ -32,8 +32,8 @@ class Tags(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
 
-    name = db.Column(db.String(80), nullable=False)
-    slug = db.Column(db.String(200), nullable=False)
+    name = db.Column(db.String(80), nullable=False, unique=True)
+    slug = db.Column(db.String(200), nullable=False, unique=True)
 
     def __repr__(self):
         return '<Tags %r>' % self.name
@@ -62,13 +62,13 @@ class Posts(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     vote_id = db.Column(db.Integer, db.ForeignKey('votes.id'), nullable=False)
-    title = db.Column(db.String(200))
-    slug = db.Column(db.String(200))
-    brief = db.Column(db.Text)
-    content = db.Column(db.Text)
+    title = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200),nullable=False, unique=True)
+    brief = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
     last_edited_at = db.Column(db.DateTime)
 
-    users = db.relationship('Users', backref=db.backref('posts', lazy=True))
+    user = db.relationship('Users', backref=db.backref('posts', lazy=True))
     vote = db.relationship("Votes", back_populates="post")
     tags = db.relationship('Tags', secondary=post_tags, lazy='subquery',
                            backref=db.backref('posts', lazy=True))
@@ -85,10 +85,10 @@ class Comments(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
-    content = db.Column(db.Text)
+    content = db.Column(db.Text, nullable=False)
 
-    post = db.relationship('Posts', backref=db.backref('comment', lazy=True))
-    user = db.relationship('Users', backref=db.backref('comment', lazy=True))
+    post = db.relationship('Posts', backref=db.backref('comments', lazy=True))
+    user = db.relationship('Users', backref=db.backref('comments', lazy=True))
 
     def __repr__(self):
         return '<Comment %r>' % self.content
