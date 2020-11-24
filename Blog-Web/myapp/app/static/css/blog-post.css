@@ -127,8 +127,8 @@ body {
 }
 
 body {
-  background: #d8dada;
-  background: linear-gradient(to right, #b5bbc2, #bfbfc0);
+  background: #ffffff;
+  /* background: linear-gradient(to right, #ebedf0, #e4e4eb); */
 }
 
 .card-signin {

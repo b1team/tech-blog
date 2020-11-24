@@ -66,10 +66,11 @@ def post_content(slug):
     post.content = Markup(md(post.content))
     
     tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2]
-    tags2 = tags[len(tags)//2:]
+    tags1 = tags[:len(tags)//2+1]
+    tags2 = tags[len(tags)//2+1:]
 
-    comments = db.session.query(Comments).filter(Comments.post_id==post.id).all()
+    page = request.args.get('page', 1, type=int)
+    comments = db.session.query(Comments).order_by(Comments.created_at.desc()).filter(Comments.post_id==post.id).paginate(page=page, per_page=5)
 
     if request.method == "POST":
         cmt = request.form["comment"]
@@ -80,8 +81,7 @@ def post_content(slug):
 
         db.session.add(new_cm)
         db.session.commit()
-        # return render_template("post/post-content.html",login=login , post=post,
-        #     user=username, comments=comments, tags1=tags1, tags2=tags2)
+        return redirect(url_for("post_bp.post_content", slug=post.slug))
 
     return render_template("post/post-content.html",login=login , post=post,
             user=username, comments=comments, tags1=tags1, tags2=tags2)
