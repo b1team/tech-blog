@@ -13,6 +13,11 @@ def login():
         "status": "success",
         "message": ""
     }
+    
+    login = session.get("logged_in")
+    if login:
+        return redirect(url_for('home_bp.home'))
+
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]

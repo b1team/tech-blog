@@ -14,7 +14,7 @@ def search():
     user = session.get("username")
     query = request.args.get("q", type=str)
     page = request.args.get('page', 1, type=int)
-    posts = db.session.query(Posts).filter(Posts.title.contains(query)).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    posts = db.session.query(Posts).filter(Posts.title.contains(query), Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
 
 
     return render_template("sidebar/search.html", login=login, user=user, posts=posts,query=query)
@@ -30,7 +30,7 @@ def tag(name):
     tag = name
 
     page = request.args.get('page', 1, type=int)
-    posts = db.session.query(Posts).join(Tags.posts).filter(Tags.name==name).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    posts = db.session.query(Posts).join(Tags.posts).filter(Tags.name==name, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
 
     return render_template("sidebar/tag.html", login=login, user=user,
             posts=posts, tags1=tags1, tags2=tags2, tag=tag)

@@ -19,7 +19,8 @@ def home():
     tags2 = tags[len(tags)//2+1:]
 
     page = request.args.get('page', 1, type=int)
-    posts = db.session.query(Posts).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    posts = db.session.query(Posts).filter(Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+
 
     return render_template("home/blog.html", login=login, user=user,
             posts=posts, tags1=tags1, tags2=tags2)

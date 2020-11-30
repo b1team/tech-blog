@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ action.title() }} {% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/simplemde.min.css') }}">
+    <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card border-0 shadow my-5">
+        <div class="card-body p-5">
+            <h5 class="card-title text-center">{{ action.upper() }}</h5>
+            <form action="/update/{{ up_post.id }}" method="POST">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" class="form-control" id="title" placeholder="Enter title" name="title", value="{{ up_post.title }}">
+                </div>
+                <div class="form-group">
+                    <label for="brief">Brief:</label>
+                    <input type="text" class="form-control" id="brief" placeholder="Enter brief" name="brief", value="{{ up_post.brief }}">
+                </div>
+                <div class="form-group">
+                    <label for="tags">Tags:</label>
+                    <input type="text" class="form-control" id="tag" placeholder="python,flask" name="tags", value="{{ up_tags }}">
+                </div>
+                <div class="form-group">
+                    <label for="body">Body</label>
+                    <textarea name="body" class="form-control" id="postbody">{{ up_post.content }}</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    var simplemde = new SimpleMDE({
+        autofocus: true,
+        element: document.getElementById("postbody"),
+        placeholder: "Type here...",
+        promptURLs: true,
+        parsingConfig: {
+            allowAtxHeaderWithoutSpace: true,
+            strikethrough: false,
+            underscoresBreakWords: true,
+        },
+        previewRender: function (plainText) {
+            return customMarkdownParser(plainText); // Returns HTML from a custom parser
+        },
+        previewRender: function (plainText, preview) { // Async method
+            setTimeout(function () {
+                preview.innerHTML = customMarkdownParser(plainText);
+            }, 250);
+            return "Loading...";
+        },
+    });
+</script>
+{% endblock %}
