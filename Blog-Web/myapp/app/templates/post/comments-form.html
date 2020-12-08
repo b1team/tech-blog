@@ -1,0 +1,24 @@
+<!-- Comments Form -->
+<div class="card my-4">
+  <h5 class="card-header">Leave a Comment:</h5>
+  <div class="card-body">
+    <form action="" method="POST">
+      <div class="form-group">
+        <textarea id="create_comment" name="comment" class="form-control" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" onclick="addComment(); return false;">Submit</button>
+    </form>
+  </div>
+</div>
+
+<!-- List comments -->
+<div id="comment-box">
+
+</div>
+
+<!-- Pagantion -->
+  <div class="btn-group" style="margin-left: 10rem;">
+    {% for page in range(num_of_pages) %}
+      <button type="button" class="btn btn-link" onclick="loadComments('{{ page }}'); return false;">{{ page+1 }}</button>
+    {% endfor %}
+  </div>

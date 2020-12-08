@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+{% block head %}
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
 {% block content %}
 
 <!-- Page Content -->
@@ -31,9 +36,12 @@
       </div>
 
       <hr>
+      {% include 'post/vote.html' %}
+      <hr>
 
-    {% include 'post/comments.html' %}
-
+    <!-- % include 'post/comments.html' % -->
+      {% include 'post/comments-form.html' %}
+      <!-- % include 'post/comments-list.html' % -->
     </div>
 
     <!-- Sidebar Widgets Column -->
@@ -45,4 +53,7 @@
 </div>
 <!-- /.container -->
 
+{% endblock %}
+{% block script %}
+  <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
 {% endblock %}
