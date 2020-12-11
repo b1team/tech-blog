@@ -64,7 +64,7 @@ class Posts(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     title = db.Column(db.String(200), nullable=False)
-    thumbnail = db.column(db.Text)
+    thumbnail = db.Column(db.Text)
     slug = db.Column(db.String(200),nullable=False, unique=True)
     brief = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)

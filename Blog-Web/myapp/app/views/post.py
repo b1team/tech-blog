@@ -197,9 +197,16 @@ def addvote():
     user_id = session.get('user_id')
     user_vote = request.args.get('vote', 'up')
     user_vote = True if user_vote == 'up' else False
-    vote = Votes(vote=user_vote, post_id=post_id, user_id=user_id)
     try:
-        db.session.add(vote)
+        v = db.session.query(Votes).filter(Votes.user_id==user_id, Votes.post_id==post_id).first()
+        if v:
+            if (user_vote and v.vote) or (not user_vote and not v.vote):
+                db.session.delete(v)
+            else:
+                v.vote = not v.vote
+        else:
+            vote = Votes(vote=user_vote, post_id=post_id, user_id=user_id)
+            db.session.add(vote)
         db.session.commit()
     except Exception as e:
         print(e)
