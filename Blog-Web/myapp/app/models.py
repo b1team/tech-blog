@@ -20,6 +20,7 @@ class Users(db.Model):
     name = db.Column(db.String(80))
     email = db.Column(db.String(80))
     phone_number = db.Column(db.Integer)
+    avatar_url = db.Column(db.Text)
 
     def __repr__(self):
         return '<User %r>' % self.username

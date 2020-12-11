@@ -25,8 +25,8 @@ def tag(name):
     login = session.get("logged_in")
     user = session.get("username")
     tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2+1]
-    tags2 = tags[len(tags)//2+1:]
+    tags1 = tags[:len(tags)//2]
+    tags2 = tags[len(tags)//2:]
     tag = name
 
     page = request.args.get('page', 1, type=int)

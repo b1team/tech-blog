@@ -68,8 +68,8 @@ def post_content(slug):
     post.content = Markup(md(post.content))
     
     tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2+1]
-    tags2 = tags[len(tags)//2+1:]
+    tags1 = tags[:len(tags)//2]
+    tags2 = tags[len(tags)//2:]
 
     return render_template("post/post-content.html",login=login , post=post, user=username, tags1=tags1, tags2=tags2)
 
@@ -182,8 +182,8 @@ def myposts():
         user = session.get("username")
         user_id = session.get("user_id")
         tags = db.session.query(Tags).all()
-        tags1 = tags[:len(tags)//2+1]
-        tags2 = tags[len(tags)//2+1:]
+        tags1 = tags[:len(tags)//2]
+        tags2 = tags[len(tags)//2:]
 
         page = request.args.get('page', 1, type=int)
         posts = db.session.query(Posts).filter(Posts.user_id==user_id, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
