@@ -1,6 +1,47 @@
 <div class="w3-padding w3-xlarge w3-white">
-    <button class="w3-button w3-xlarge w3-circle w3-black"><i class="fa fa-thumbs-o-up"></i></button>
-    <i>hi</i>
-    <button class="w3-button w3-xlarge w3-circle w3-black"><i class="fa fa-thumbs-o-down"></i></button>
-    <i>hi</i>
+    <button id='btn-up' class="w3-button w3-xlarge w3-circle w3-black" onclick="addvote('up')"><i class="fa fa-thumbs-o-up"></i></button>
+    <i id='upvote'></i>
+    <button id='btn-down' class="w3-button w3-xlarge w3-circle w3-black" onclick="addvote('down')"><i class="fa fa-thumbs-o-down"></i></button>
+    <i id='downvote'></i>
 </div>
+
+<script type='text/javascript'>
+
+String.prototype.format = function() {
+  a = this;
+  for (k in arguments) {
+    a = a.replace("{" + k + "}", arguments[k])
+  }
+  return a
+}
+
+function addvote(status) {
+    axios.post('/addvote?vote={0}'.format(status))
+        .then(function(response) {
+            console.log(response);
+            loadvote()
+        })
+}
+
+function loadvote() {
+    axios.get('/loadvote')
+        .then(function(response) {
+            console.log(response)
+            var votes = response.data.votes
+            var upvote = 0
+            var downvote = 0
+            for(vote of votes) {
+                if(vote.vote){
+                    upvote += 1;
+                }
+                else{
+                    downvote += 1;
+                }
+            }
+            document.getElementById('upvote').innerHTML = upvote;
+            document.getElementById('downvote').innerHTML = downvote;
+        }).catch(function(error) {
+            console.log(error);
+        })
+}
+</script>

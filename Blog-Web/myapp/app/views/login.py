@@ -41,6 +41,7 @@ def login():
 @login_bp.route("/logout", methods=["GET", "POST"])
 def logout():
     session["logged_in"] = False
-    session["count"] = 0
+    session["user_id"] = ""
+    session["username"] = ""
 
     return redirect("/")

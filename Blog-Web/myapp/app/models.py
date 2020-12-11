@@ -45,13 +45,15 @@ class Votes(db.Model):
     deleted_at = db.Column(db.DateTime, default=None)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
-    upvote = db.Column(db.Integer, default=0)
-    downvote = db.Column(db.Integer, default=0)
+    vote = db.Column(db.Boolean, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
-    post = db.relationship("Posts", uselist=False, back_populates="vote")
+    post = db.relationship("Posts", uselist=False, back_populates="votes")
+    user = db.relationship('Users', backref=db.backref('votes', lazy=True))
 
     def __repr__(self):
-        return '<Vote %r>' % (self.upvote - self.downvote)
+        return '<Vote %r>' % self.vote
 
 
 class Posts(db.Model):
@@ -61,15 +63,15 @@ class Posts(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    vote_id = db.Column(db.Integer, db.ForeignKey('votes.id'), nullable=False)
     title = db.Column(db.String(200), nullable=False)
+    thumbnail = db.column(db.Text)
     slug = db.Column(db.String(200),nullable=False, unique=True)
     brief = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
     last_edited_at = db.Column(db.DateTime)
 
     user = db.relationship('Users', backref=db.backref('posts', lazy=True))
-    vote = db.relationship("Votes", back_populates="post")
+    votes = db.relationship("Votes", back_populates="post")
     tags = db.relationship('Tags', secondary=post_tags, lazy='subquery',
                            backref=db.backref('posts', lazy=True))
 

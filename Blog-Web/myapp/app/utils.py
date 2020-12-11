@@ -1,6 +1,4 @@
 def row2dict(row):
-    d = dict()
-    for column in row.__table__.columns:
-        d[column.name] = str(getattr(row, column.name))
-
+    d = dict(row.__dict__)
+    d.pop("_sa_instance_state")
     return d

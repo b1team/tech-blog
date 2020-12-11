@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 from flask import request, session, Markup, redirect, url_for, request, jsonify
 from app.models import Posts, Votes, Tags, Users, Comments
 from app import db
@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from misaka import Markdown, HtmlRenderer
 from datetime import timedelta
 from app import utils
+from math import ceil
 
 
 post_bp = Blueprint("post_bp", __name__, template_folder="templates", static_folder="static")
@@ -27,7 +28,6 @@ def create_post():
             slug = "{0}-{1}".format(slugify(title),
                                     str(datetime.utcnow().timestamp()).replace('.', ''))
 
-            vote = Votes(upvote=0, downvote=0)
             user = db.session.query(Users).filter(Users.id == user_id).first()
 
             post = Posts(title=title,brief=brief, slug=slug, content=body)
@@ -45,7 +45,6 @@ def create_post():
                     m_tag = Tags(name=tag, slug=tag)
                     post.tags.append(m_tag)
 
-            post.vote = vote
             post.user = user
 
             db.session.add(post)
@@ -63,11 +62,6 @@ def post_content(slug):
     render = HtmlRenderer()
     md = Markdown(render)
     session['post_id'] = post.id
-    comments = db.session.query(Comments).filter(Comments.post_id==post.id).all()
-    if comments is not None:
-        num_of_pages = (len(comments) // 5) + 1
-    else:
-        num_of_pages = 0
 
     user_id = session.get("user_id")
     username = session.get("username")
@@ -77,7 +71,7 @@ def post_content(slug):
     tags1 = tags[:len(tags)//2+1]
     tags2 = tags[len(tags)//2+1:]
 
-    return render_template("post/post-content.html",login=login , post=post, user=username, tags1=tags1, tags2=tags2, num_of_pages=num_of_pages)
+    return render_template("post/post-content.html",login=login , post=post, user=username, tags1=tags1, tags2=tags2)
 
 
 
@@ -85,21 +79,21 @@ def post_content(slug):
 def loadcmt():
     post_id = session.get("post_id")
     comments = db.session.query(Comments).join(Users.comments).order_by(Comments.created_at.desc()).filter(Comments.post_id==post_id)
-    page = request.args.get('page', 0,type=int)
-    page_size = request.args.get('page_size', 5,type=int)
-
+    page = request.args.get('page', 0, type=int)
+    page_size = request.args.get('page_size', 5, type=int)
+    total = comments.count()
     if page_size:
         comments = comments.limit(page_size)
     if page:
         comments = comments.offset(page*page_size)
-
+    num_of_page = ceil(total / page_size)
     result = []
     for comment in comments.all():
         data = utils.row2dict(comment)
         data['username'] = comment.user.username
         data['created_at'] = comment.created_at + timedelta(hours=7)
         result.append(data)
-    return jsonify(data=result)
+    return jsonify(data=result, total=total, current_page=page + 1, page_size=page_size, num_of_page=num_of_page)
 
 
 @post_bp.route("/addcmt", methods=["POST"])
@@ -195,3 +189,31 @@ def myposts():
         posts = db.session.query(Posts).filter(Posts.user_id==user_id, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
 
     return render_template("/post/my-post.html", login=login, posts=posts, user=user, tags1=tags1, tags2=tags2)
+
+
+@post_bp.route("/addvote", methods=["POST"])
+def addvote():
+    post_id = session.get('post_id')
+    user_id = session.get('user_id')
+    user_vote = request.args.get('vote', 'up')
+    user_vote = True if user_vote == 'up' else False
+    vote = Votes(vote=user_vote, post_id=post_id, user_id=user_id)
+    try:
+        db.session.add(vote)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return {"status": "error", "message": str(e)}, 500
+    else:
+        return {"status": "success", "message": "voted"}, 200
+
+
+@post_bp.route("/loadvote", methods=["GET"])
+def loadvote():
+    post_id = session.get('post_id')
+    current_user = session.get('user_id')
+    if not post_id:
+        return {"status": "error", "message": "post_id is not found"}, 404
+    votes = db.session.query(Votes).filter(Votes.post_id==post_id).all()
+
+    return jsonify(votes=[utils.row2dict(v) for v in votes], current_user=current_user)

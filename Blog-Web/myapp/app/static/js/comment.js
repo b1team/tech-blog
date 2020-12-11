@@ -1,6 +1,7 @@
 
   window.onload = function() {
     loadComments(0);
+    loadvote();
 };
 
 String.prototype.format = function() {
@@ -28,9 +29,9 @@ String.prototype.format = function() {
               </div>
             </div>`.format(comment.username, comment.created_at, comment.content);
           node.innerHTML = comment_html;
-        document.getElementById("comment-box").appendChild(node); 
+        document.getElementById("comment-box").appendChild(node);
         }
-  
+        pagenation(response.data.num_of_page);
       })
       .catch(function (error) {
         // handle error
@@ -50,3 +51,15 @@ String.prototype.format = function() {
         loadComments()
       })
   }
+
+function pagenation(num_of_page){
+    document.getElementById('pagination').innerHTML = "";
+    var num_of_page = num_of_page;
+    for (var i = 0; i < num_of_page; i++){
+      var node = document.createElement("div")
+      var pagenation = `<button type="button" class="btn btn-link" 
+      onclick="loadComments({0}); return false;">{1}</button>`.format(i, i+1);
+      node.innerHTML = pagenation;
+      document.getElementById('pagination').appendChild(node);
+    }
+}
