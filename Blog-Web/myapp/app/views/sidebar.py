@@ -15,9 +15,12 @@ def search():
     query = request.args.get("q", type=str)
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Posts).filter(Posts.title.contains(query), Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    tags = db.session.query(Tags).all()
+    tags1 = tags[:len(tags)//2]
+    tags2 = tags[len(tags)//2:]
 
 
-    return render_template("sidebar/search.html", login=login, user=user, posts=posts,query=query)
+    return render_template("sidebar/search.html", login=login, user=user, posts=posts,query=query, tags1=tags1, tags2=tags2)
 
 
 @sidebar_bp.route("/tag/<name>", methods=["GET","POST"])
