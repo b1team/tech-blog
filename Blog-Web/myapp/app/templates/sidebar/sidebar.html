@@ -1,82 +1,84 @@
 <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-<div class="sidebar">
-    <!-- Search Widget -->
-    <div class="card my-4">
-        <h5 class="card-header">Search</h5>
-        <div class="card-body">
-            <div class="input-group">
-                <form action="/search" method="GET">
-                    <input type="text" class="form-control" id="search" name="q" style="display: inline-block;width: 70%;" placeholder="Search by title...">
-                    <span class="input-group-append" style="display: inline-block;">
-                        <button class="btn btn-secondary" type="submit">Go!</button>
-                    </span>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tags Widget -->
-    <div class="card my-4">
-        <h5 class="card-header">Tags</h5>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-6">
-                    <ul class="list-unstyled mb-0">
-                        {% for tag in tags1 %}
-                        <li>
-                            <a href="{{ url_for("sidebar_bp.tag", name=tag.name) }}">{{ tag.name }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="col-lg-6">
-                    <ul class="list-unstyled mb-0">
-                        {% for tag in tags2 %}
-                        <li>
-                            <a href="{{ url_for("sidebar_bp.tag",
-                                                 name=tag.name) }}">{{ tag.name }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+    <div class="sidebar">
+        <!-- Search Widget -->
+        <div class="widget my-4">
+            <div class="widget-body">
+                <div class="input-group">
+                    <form action="/search" method="GET">
+                        <input type="text" class="form-control" id="search" name="q"
+                            style="display: inline-block;width: 70%; height: 100%;" placeholder="python">
+                        <span class="input-group-append" style="display: inline-block;width:25%;">
+                            <button class="btn btn-secondary" type="submit">Search</button>
+                        </span>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Side Widget -->
-    <div class="card my-4">
-       <div class="sidebar">
-       	<div class="widget">
-                                <h2 class="widget-title">Popular Posts</h2>
-                                <div class="blog-list-widget">
-                                    <div class="list-group">
-                                        <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="w-100 justify-content-between">
-                                                <img src="upload/tech_blog_08.jpg" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">5 Beautiful buildings you need..</h5>
-                                                <small>12 Jan, 2016</small>
-                                            </div>
-                                        </a>
+        <!-- Tags Widget -->
+        <div class="widget my-4">
+            <h5 class="widget-header">Tags</h5>
+            <div class="widget-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled mb-0">
+                            {% for tag in tags1 %}
+                            <li>
+                                <a href="{{ url_for("sidebar_bp.tag", name=tag.name) }}">{{ tag.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-lg-6">
+                        <ul class="list-unstyled mb-0">
+                            {% for tag in tags2 %}
+                            <li>
+                                <a href="{{ url_for("sidebar_bp.tag", name=tag.name) }}">{{ tag.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                                        <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="w-100 justify-content-between">
-                                                <img src="upload/tech_blog_01.jpg" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Let's make an introduction for..</h5>
-                                                <small>11 Jan, 2016</small>
-                                            </div>
-                                        </a>
+        <!-- Side Widget -->
+        <div class="widget my-4">
+            <div class="sidebar">
+                <div class="widget">
+                    <h2 class="widget-title">Popular Posts</h2>
+                    <div class="blog-list-widget">
+                        <div class="list-group">
+                            <a href="tech-single.html"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="w-100 justify-content-between">
+                                    <img src="upload/tech_blog_08.jpg" alt="" class="img-fluid float-left">
+                                    <h5 class="mb-1">5 Beautiful buildings you need..</h5>
+                                    <small>12 Jan, 2016</small>
+                                </div>
+                            </a>
 
-                                        <a href="tech-single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <div class="w-100 last-item justify-content-between">
-                                                <img src="upload/tech_blog_03.jpg" alt="" class="img-fluid float-left">
-                                                <h5 class="mb-1">Did you see the most beautiful..</h5>
-                                                <small>07 Jan, 2016</small>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div><!-- end blog-list -->
-                            </div>
-       </div>
-    </div>
+                            <a href="tech-single.html"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="w-100 justify-content-between">
+                                    <img src="upload/tech_blog_01.jpg" alt="" class="img-fluid float-left">
+                                    <h5 class="mb-1">Let's make an introduction for..</h5>
+                                    <small>11 Jan, 2016</small>
+                                </div>
+                            </a>
+
+                            <a href="tech-single.html"
+                                class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="w-100 last-item justify-content-between">
+                                    <img src="upload/tech_blog_03.jpg" alt="" class="img-fluid float-left">
+                                    <h5 class="mb-1">Did you see the most beautiful..</h5>
+                                    <small>07 Jan, 2016</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div><!-- end blog-list -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>

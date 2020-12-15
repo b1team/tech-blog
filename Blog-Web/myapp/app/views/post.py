@@ -32,9 +32,9 @@ def create_post():
 
             post = Posts(title=title,brief=brief, slug=slug, content=body)
 
-            tags = request.form["tags"]
+            tags = request.form["tags"].strip()
             list_tag = []
-            list_tag.extend("".join(tags).split(","))
+            list_tag.extend(tag for tag in map(lambda x: x.strip(), tags.split(",")) if tag !="")
             db_tags = db.session.query(Tags).filter(Tags.name.in_(list_tag)).all()
             post.tags.extend(db_tags)
             existed_tags = {tag.name for tag in db_tags}
@@ -178,6 +178,7 @@ def delete(id):
 @post_bp.route("/myposts", methods=["GET", "POST"])
 def myposts():
     login = session.get("logged_in")
+    url = '/myposts'
     if login:
         user = session.get("username")
         user_id = session.get("user_id")
@@ -188,7 +189,7 @@ def myposts():
         page = request.args.get('page', 1, type=int)
         posts = db.session.query(Posts).filter(Posts.user_id==user_id, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
 
-    return render_template("/post/my-post.html", login=login, posts=posts, user=user, tags1=tags1, tags2=tags2)
+    return render_template("/post/my-post.html", login=login, posts=posts, user=user, tags1=tags1, tags2=tags2, url=url)
 
 
 @post_bp.route("/addvote", methods=["POST"])
