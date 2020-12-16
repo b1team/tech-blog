@@ -48,7 +48,7 @@ def tag(name):
 
 @sidebar_bp.route("/favorite", methods=["GET"])
 def favorite():
-    posts = db.session.query(Posts).join(Posts.votes)
+    posts = db.session.query(Posts).outerjoin(Posts.votes)
     default_num_of_posts = 5
     try:
         num_of_posts = int(request.args.get("top", default_num_of_posts))
