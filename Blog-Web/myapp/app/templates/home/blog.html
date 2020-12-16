@@ -1,8 +1,16 @@
 {% extends 'base.html' %}
 
-{% block title %} HOME {% endblock %}
+{% block title %} Techblog - Home {% endblock %}
+
 
 {% block content %}
+    <!--banner-->
+    <section class="section" style="padding-top:0;">
+      <div class="mansory-blog clearfix">
+        <img id="banner" class='img-fluid' src="{{ url_for('static', filename='images/version/banner.jpeg') }}" alt="">
+      </div>
+    </section>
+
 <!-- Page Content -->
 <div class="container">
   <div class="row">
@@ -15,31 +23,32 @@
       <!-- Blog Post -->
 
       <div class="blog-list clearfix">
-      {% for post in posts.items %}
-      <div class="blog-box row">
-                                    <div class="col-md-4">
-                                        <div class="post-media">
-                                            <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">
-                                                <img src="{{ url_for('static', filename='images/tech_blog_04.jpg') }}" alt="none" class="img-fluid">
-                                                <div class="hovereffect"></div>
-                                            </a>
-                                        </div><!-- end media -->
-                                    </div><!-- end col -->
+        {% for post in posts.items %}
+        <div class="blog-box row">
+          <div class="col-md-4">
+            <div class="post-media">
+              <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">
+                <img src="{{ url_for('static', filename='images/tech_blog_04.jpg') }}" alt="none" class="img-fluid">
+                <div class="hovereffect"></div>
+              </a>
+            </div><!-- end media -->
+          </div><!-- end col -->
 
-                                    <div class="blog-meta big-meta col-md-8">
-                                        <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
-                                        <p>{{ post.brief }}</p>
-                                        {% for tag in post['tags'] %}
-                                        <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}" title="">{{ tag.name }}</a></small>
-                                        {% endfor %}
-                                        <small><a href="tech-single.html" title="">{{ format_date(post.created_at) }}</a></small>
-                                        <small><a href="tech-author.html" title="">by {{ post.user.username }}</a></small>
-                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> 4441</a></small>
-                                    </div><!-- end meta -->
-                                </div>
-                                <hr class="invis">		
-         {% endfor %}
-         </div>
+          <div class="blog-meta big-meta col-md-8">
+            <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
+            <p>{{ post.brief }}</p>
+            {% for tag in post['tags'] %}
+            <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}"
+                title="">{{ tag.name }}</a></small>
+            {% endfor %}
+            <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
+            <small><a href="#" title="">by {{ post.user.username }}</a></small>
+            <small><a href="#" title=""><i class="fa fa-eye"></i> 4441</a></small>
+          </div><!-- end meta -->
+        </div>
+        <hr class="invis">
+        {% endfor %}
+      </div>
 
 
       <!-- Pagination -->
@@ -53,4 +62,8 @@
   <!-- /.row -->
 </div>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/popular.js') }}"></script>
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, abort
 from flask import request, session
 from app import db
 from app.models import Users
@@ -9,9 +9,9 @@ profile_bp = Blueprint("profile_bp", __name__, template_folder="templates", stat
 
 @profile_bp.route("/profile", methods=["GET", "POST"])
 def profile():
-    cuser = session.get("username")
     login = session.get("logged_in")
     if login:
+        cuser = session.get("username")
         update_user = db.session.query(Users).filter(Users.username==cuser).first()
 
         if request.method == "POST":
@@ -25,5 +25,7 @@ def profile():
             update_user.name = name
             update_user.phone_number = phone_number
             db.session.commit()
+    else:
+        return abort(401)
 
     return render_template("profile/profile.html",login=login, user=cuser, uuser=update_user)

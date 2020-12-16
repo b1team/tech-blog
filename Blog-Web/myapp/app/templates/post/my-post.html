@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} MY POST {% endblock %}
+{% block title %} Techblog - My posts {% endblock %}
 
 {% block content %}
 <!-- Page Content -->
@@ -15,30 +15,31 @@
       <!-- Blog Post -->
       {% for post in posts.items %}
       <div class="blog-box row">
-                                    <div class="col-md-4">
-                                        <div class="post-media">
-                                            <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">
-                                                <img src="upload/tech_blog_04.jpg" alt="none" class="img-fluid">
-                                                <div class="hovereffect"></div>
-                                            </a>
-                                        </div><!-- end media -->
-                                    </div><!-- end col -->
+        <div class="col-md-4">
+          <div class="post-media">
+            <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">
+                <img src="{{ url_for('static', filename='images/tech_blog_04.jpg') }}" alt="none" class="img-fluid">
+              <div class="hovereffect"></div>
+            </a>
+          </div><!-- end media -->
+        </div><!-- end col -->
 
-                                    <div class="blog-meta big-meta col-md-8">
-                                        <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
-                                        <p>{{ post.brief }}</p>
-                                        {% for tag in post['tags'] %}
-                                        <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}" title="">{{ tag.name }}</a></small>
-                                        {% endfor %}
-                                        <small><a href="tech-single.html" title="">{{ format_date(post.created_at) }}</a></small>
-                                        <small><a href="tech-author.html" title="">by {{ post.user.username }}</a></small>
-                                        <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> 4441</a></small>
-                                         <a href="{{ url_for('post_bp.update', id=post.id) }}" class="badge badge-success">Update</a>
-          				 <a href="{{ url_for('post_bp.delete', id=post.id) }}" class="badge badge-danger">Delete</a>
-                                    </div><!-- end meta -->
-                                </div>
-                                <hr class="invis">		
-         {% endfor %}
+        <div class="blog-meta big-meta col-md-8">
+          <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
+          <p>{{ post.brief }}</p>
+          {% for tag in post['tags'] %}
+          <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}"
+              title="">{{ tag.name }}</a></small>
+          {% endfor %}
+          <small><a href="tech-single.html" title="">{{ format_date(post.created_at) }}</a></small>
+          <small><a href="tech-author.html" title="">by {{ post.user.username }}</a></small>
+          <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> 4441</a></small>
+          <a href="{{ url_for('post_bp.update', id=post.id) }}" class="badge badge-success">Update</a>
+          <a href="{{ url_for('post_bp.delete', id=post.id) }}" class="badge badge-danger">Delete</a>
+        </div><!-- end meta -->
+      </div>
+      <hr class="invis">
+      {% endfor %}
 
 
       <!-- Pagination -->
@@ -52,4 +53,8 @@
   <!-- /.row -->
 </div>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/popular.js') }}"></script>
 {% endblock %}

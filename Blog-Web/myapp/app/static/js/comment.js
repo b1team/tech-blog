@@ -50,6 +50,9 @@ String.prototype.format = function() {
         document.getElementById("create_comment").value = "";
         loadComments()
       })
+      .catch(function (error){
+        console.log(error);
+      })
   }
 
 function pagenation(num_of_page){

@@ -32,9 +32,9 @@ def create_post():
 
             post = Posts(title=title,brief=brief, slug=slug, content=body)
 
-            tags = request.form["tags"]
+            tags = request.form["tags"].strip()
             list_tag = []
-            list_tag.extend("".join(tags).split(","))
+            list_tag.extend(tag for tag in map(lambda x: x.strip(), tags.split(",")) if tag !="")
             db_tags = db.session.query(Tags).filter(Tags.name.in_(list_tag)).all()
             post.tags.extend(db_tags)
             existed_tags = {tag.name for tag in db_tags}
@@ -51,6 +51,8 @@ def create_post():
             db.session.commit()
 
             return redirect(url_for("home_bp.home"))
+    else:
+        return abort(401)
 
     return render_template("post/create-post.html", login=login, user=username, action=action)
 
@@ -93,6 +95,7 @@ def loadcmt():
         data['username'] = comment.user.username
         data['created_at'] = comment.created_at + timedelta(hours=7)
         result.append(data)
+
     return jsonify(data=result, total=total, current_page=page + 1, page_size=page_size, num_of_page=num_of_page)
 
 
@@ -123,8 +126,12 @@ def update(id):
     login = session.get("logged_in")
     if login:
         username = session.get("username")
-
+        user_id = session.get("user_id")
         post_update = db.session.query(Posts).filter(Posts.id==id).first()
+        if not post_update:
+            return abort(404)
+        if post_update.user_id != user_id:
+            return abort(403)
             
         old_tags = []
         for tag in post_update.tags:
@@ -160,6 +167,8 @@ def update(id):
             db.session.commit()
 
             return redirect(url_for('home_bp.home'))
+    else:
+        return abort(401)
 
     return render_template("post/update.html", login=login, user=username, action=action, up_post=post_update, up_tags=current_tags)
 
@@ -168,9 +177,17 @@ def update(id):
 def delete(id):
     login = session.get("logged_in")
     if login:
+        user_id = session.get("user_id")
         delete_post = db.session.query(Posts).filter(Posts.id == id).first()
+        if not delete_post:
+            return abort(404)
+        if delete_post.user_id != user_id:
+            return abort(403)
+
         delete_post.deleted = True
         db.session.commit()
+    else:
+        return abort(401)
 
     return redirect(url_for('home_bp.home'))
 
@@ -178,6 +195,7 @@ def delete(id):
 @post_bp.route("/myposts", methods=["GET", "POST"])
 def myposts():
     login = session.get("logged_in")
+    url = '/myposts'
     if login:
         user = session.get("username")
         user_id = session.get("user_id")
@@ -187,13 +205,16 @@ def myposts():
 
         page = request.args.get('page', 1, type=int)
         posts = db.session.query(Posts).filter(Posts.user_id==user_id, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    else:
+        return abort(401)
 
-    return render_template("/post/my-post.html", login=login, posts=posts, user=user, tags1=tags1, tags2=tags2)
+    return render_template("/post/my-post.html", login=login, posts=posts, user=user, tags1=tags1, tags2=tags2, url=url)
 
 
 @post_bp.route("/addvote", methods=["POST"])
 def addvote():
     post_id = session.get('post_id')
+    
     user_id = session.get('user_id')
     user_vote = request.args.get('vote', 'up')
     user_vote = True if user_vote == 'up' else False

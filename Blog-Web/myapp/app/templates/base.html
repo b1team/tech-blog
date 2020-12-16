@@ -17,15 +17,9 @@
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/font-awesome.js') }}"></script>
     
-    <!--NEW -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet"> 
-
-    <!-- Bootstrap core CSS -->
-    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
-
     <!-- FontAwesome Icons core CSS -->
     <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet">	
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     <!-- Responsive styles for this template -->
     <link href="{{ url_for('static', filename='css/responsive.css') }} rel="stylesheet">
 
@@ -35,7 +29,7 @@
     <!-- Version Tech CSS for this template -->
     <link href="{{ url_for('static', filename='css/tech.css') }}" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600&display=swap" rel="stylesheet"> 
   
     {% block head %}{% endblock %}
 </head>
@@ -43,43 +37,41 @@
 <body>
     <!-- Navigation -->
     <div id="wrapper">
-    <header class="tech-header header">
-    <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-inverse fixed-top">
-       
-         <a class="navbar-brand" href="{{ url_for("home_bp.home") }}"><img src="{{ url_for('static', filename='images/tech-logo.png') }}" alt=""></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive	">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item ">
-                        <a class="nav-link" href="{{ url_for("home_bp.home") }}">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Rank</a>
-                    </li>
-                    {% if not login %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for("login_bp.login") }}">Sign in</a>
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" , href="{{ url_for("profile_bp.profile") }}">Profile {{ user }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" , href="{{ url_for("post_bp.create_post") }}">Create Post</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for("post_bp.myposts") }}">My Post</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link", href="{{ url_for("login_bp.logout") }}">Logout</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <ul class="navbar-nav mr-2">
+        <header class="tech-header ">
+                <nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-inverse">
+    
+                    <a class="navbar-brand" href="{{ url_for("home_bp.home") }}">
+                        <img src="{{ url_for('static', filename='images/tech-logo.png') }}" alt="">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive	">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item ">
+                                <a class="nav-link" href="{{ url_for("home_bp.home") }}">Home</a>
+                            </li>
+                            {% if not login %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("login_bp.login") }}">Sign in</a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item">
+                                <a class="nav-link" , href="{{ url_for("profile_bp.profile") }}">Profile {{ user }}</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" , href="{{ url_for("post_bp.create_post") }}">Create Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for("post_bp.myposts") }}">My Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" , href="{{ url_for("login_bp.logout") }}">Logout</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        <ul class="navbar-nav mr-2">
                             <li class="nav-item">
                                 <a class="nav-link" href="#"><i class="fa fa-rss"></i></a>
                             </li>
@@ -90,13 +82,10 @@
                                 <a class="nav-link" href="#"><i class="fa fa-apple"></i></a>
                             </li>
                         </ul>
-            
-        </div>
-    </nav>
-    </div>
-    </header>
-   
-    <!--NEW-->
+    
+                    </div>
+                </nav>
+        </header>
      
 
     <!-- Page Content -->
@@ -124,12 +113,6 @@
 
                                 <hr class="invis">
 
-                                <div class="newsletter-widget text-left">
-                                    <form class="form-inline">
-                                        <input type="text" class="form-control" placeholder="Enter your email address">
-                                        <button type="submit" class="btn btn-primary">SUBMIT</button>
-                                    </form>
-                                </div><!-- end newsletter -->
                             </div><!-- end footer-text -->
                         </div><!-- end widget -->
                     </div><!-- end col -->
@@ -171,13 +154,14 @@
         </footer>	
 
     <!-- Bootstrap core JavaScript -->
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
-     <!-- NEW -->
-    <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+        <!-- NEW -->
+        <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
     {% block script %}{% endblock %}
     </div>
-	</body>	
+</body>	
 
 </html>

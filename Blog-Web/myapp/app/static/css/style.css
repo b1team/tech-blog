@@ -771,7 +771,6 @@ div.tab button:hover {
     background-color: #edeff2 !important;
     border: 0 dashed #e2e2e2;
     border-radius: 0;
-    color: #a3a5a8 !important;
     display: block;
     font-size: 14px;
     line-height: 1;
@@ -1695,4 +1694,15 @@ blockquote:before {
 }
 blockquote p {
   display: inline;
+}
+
+#banner {
+    height: 35vh;
+    width: 100%;
+}
+
+#post-content img,
+.editor-preview-side img,
+.editor-preview img {
+    width: 100%;
 }
