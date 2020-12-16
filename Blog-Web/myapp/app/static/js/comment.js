@@ -1,6 +1,5 @@
 
   window.onload = function() {
-    popular();
     loadComments(0);
     loadvote();
 };
@@ -51,6 +50,9 @@ String.prototype.format = function() {
         document.getElementById("create_comment").value = "";
         loadComments()
       })
+      .catch(function (error){
+        console.log(error);
+      })
   }
 
 function pagenation(num_of_page){
@@ -63,28 +65,4 @@ function pagenation(num_of_page){
       node.innerHTML = pagenation;
       document.getElementById('pagination').appendChild(node);
     }
-}
-
-function popular(){
-    axios.get("/favorite")
-    .then(function (response) {
-        console.log(response)
-        var data = response.data.top_5
-        for(post of data){
-            var node = document.createElement("div");
-            var html = `
-                    <a href="/posts/{0}" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="w-100 justify-content-between">
-                            <img src="upload/tech_blog_08.jpg" alt="" class="img-fluid float-left">
-                            <h5 class="mb-1">{1}</h5>
-                            <small>{2}</small>
-                        </div>
-                    </a>`.format(post.slug, post.title, post.created_at);
-            node.innerHTML = html;
-            document.getElementById("popular").appendChild(node);
-        }
-    })
-    .catch(function(err) {
-        console.log(err);
-    })
 }

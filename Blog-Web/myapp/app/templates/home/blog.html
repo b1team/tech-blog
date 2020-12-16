@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block title %} Techblog - Home {% endblock %}
-    <!--banner-->
-    <section class="section" style="padding-top:1.1rem;">
-        <div class="container-fluid">
-            <div class="mansory-blog clearfix">
-                <img class='img-fluid' src="{{ url_for('static', filename='images/version/banner.jpg') }}" alt="">
-            </div>
-        </div>
-    </section>
+
 
 {% block content %}
+    <!--banner-->
+    <section class="section" style="padding-top:0;">
+      <div class="mansory-blog clearfix">
+        <img id="banner" class='img-fluid' src="{{ url_for('static', filename='images/version/banner.jpeg') }}" alt="">
+      </div>
+    </section>
+
 <!-- Page Content -->
 <div class="container">
   <div class="row">
@@ -62,4 +62,8 @@
   <!-- /.row -->
 </div>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/popular.js') }}"></script>
 {% endblock %}

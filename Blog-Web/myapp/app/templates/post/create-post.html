@@ -3,6 +3,7 @@
 {% block title %} Techblog- {{ action.title() }} {% endblock %}
 
 {% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/simplemde.min.css') }}">
     <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
 {% endblock %}
@@ -28,7 +29,9 @@
                 </div>
                 <div class="form-group">
                     <label for="body">Body</label>
-                    <textarea name="body" class="form-control" id="postbody"></textarea>
+                    <div id="editor" style="z-index: 1000000000;">
+                        <textarea name="body" class="form-control" id="postbody"></textarea>
+                    </div>
                 </div>
             
                 <button type="submit" class="btn btn-primary">Post</button>
@@ -41,8 +44,8 @@
 
 {% block script %}
     <script>
+        var converter = new showdown.Converter();
         var simplemde = new SimpleMDE({
-            autofocus: false,
             element: document.getElementById("postbody"),
             placeholder: "Type here...",
             promptURLs: true,
@@ -52,13 +55,19 @@
                 underscoresBreakWords: true,
             },
             previewRender: function (plainText) {
-                return customMarkdownParser(plainText); // Returns HTML from a custom parser
+                return converter.makeHtml(plainText); // Returns HTML from a custom parser
             },
             previewRender: function (plainText, preview) { // Async method
                 setTimeout(function () {
-                    preview.innerHTML = customMarkdownParser(plainText);
+                    preview.innerHTML = converter.makeHtml(plainText);
                 }, 250);
                 return "Loading...";
-            }, });
+            },
+            spellChecker: false,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+        });
     </script>
 {% endblock %}

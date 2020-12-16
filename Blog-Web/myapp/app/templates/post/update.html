@@ -3,6 +3,7 @@
 {% block title %} {{ action.title() }} {% endblock %}
 
 {% block head %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/simplemde.min.css') }}">
     <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
 {% endblock %}
@@ -40,26 +41,31 @@
 {% endblock %}
 
 {% block script %}
-<script>
-    var simplemde = new SimpleMDE({
-        autofocus: true,
-        element: document.getElementById("postbody"),
-        placeholder: "Type here...",
-        promptURLs: true,
-        parsingConfig: {
-            allowAtxHeaderWithoutSpace: true,
-            strikethrough: false,
-            underscoresBreakWords: true,
-        },
-        previewRender: function (plainText) {
-            return customMarkdownParser(plainText); // Returns HTML from a custom parser
-        },
-        previewRender: function (plainText, preview) { // Async method
-            setTimeout(function () {
-                preview.innerHTML = customMarkdownParser(plainText);
-            }, 250);
-            return "Loading...";
-        },
-    });
-</script>
+    <script>
+        var converter = new showdown.Converter();
+        var simplemde = new SimpleMDE({
+            element: document.getElementById("postbody"),
+            placeholder: "Type here...",
+            promptURLs: true,
+            parsingConfig: {
+                allowAtxHeaderWithoutSpace: true,
+                strikethrough: false,
+                underscoresBreakWords: true,
+            },
+            previewRender: function (plainText) {
+                return converter.makeHtml(plainText); // Returns HTML from a custom parser
+            },
+            previewRender: function (plainText, preview) { // Async method
+                setTimeout(function () {
+                    preview.innerHTML = converter.makeHtml(plainText);
+                }, 250);
+                return "Loading...";
+            },
+            spellChecker: false,
+            insertTexts: {
+                horizontalRule: ["", "\n\n-----\n\n"],
+                table: ["", "\n\n| Column 1 | Column 2 | Column 3 |\n| -------- | -------- | -------- |\n| Text     | Text      | Text     |\n\n"],
+            },
+        });
+    </script>
 {% endblock %}

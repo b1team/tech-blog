@@ -48,8 +48,13 @@ def tag(name):
 
 @sidebar_bp.route("/favorite", methods=["GET"])
 def favorite():
-    posts = db.session.query(Posts).join(Posts.votes).all()
-
+    posts = db.session.query(Posts).join(Posts.votes)
+    default_num_of_posts = 5
+    try:
+        num_of_posts = int(request.args.get("top", default_num_of_posts))
+    except ValueError:
+        return [], 400
+    num_of_posts = num_of_posts if num_of_posts > 0 else default_num_of_posts
     data = []
     for post in posts:
         ls = []
@@ -61,17 +66,13 @@ def favorite():
     
     data.sort(key=utils.takeFirst, reverse=True)
 
-    ls_posts = []
-    for post in data:
-        ls_posts.append(post[1])
-
     result = []
-    for post in ls_posts:
+    for _, post in data:
         data = utils.row2dict(post)
-        data['tags'] = [tag.name for tag in data['tags']]
-        data['votes'] = [vote.vote for vote in data['votes']]
+        data.pop('tags')
+        data.pop('votes')
         data['created_at'] = post.created_at + timedelta(hours=7)
         result.append(data)
 
-    return jsonify(top_5=result[:5])
+    return jsonify(posts=result[:num_of_posts])
     

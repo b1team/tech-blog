@@ -3,7 +3,6 @@
 {% block title %}Techblog - {{ post.title }}{% endblock %}
 
 {% block head %}
-    <script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}" />
 {% endblock %}
 {% block content %}
@@ -34,7 +33,7 @@
       <hr>
 
       <!-- Post Content -->
-      <div class="mb-4">
+      <div id="post-content" class="mb-4">
         {{ post.content }}
       </div>
 
@@ -67,4 +66,5 @@
 
 {% endblock %}
 {% block script %}
+    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
 {% endblock %}
