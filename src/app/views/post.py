@@ -61,6 +61,8 @@ def create_post():
 def post_content(slug):
     login = session.get("logged_in")
     post = db.session.query(Posts).filter(Posts.slug==slug).first()
+    if not post:
+        return abort(404)
     render = HtmlRenderer()
     md = Markdown(render)
     session['post_id'] = post.id
@@ -106,10 +108,14 @@ def addcmt():
         post_id = session.get("post_id")
         user_id = session.get("user_id")
         post = db.session.query(Posts).filter(Posts.id==post_id).first()
+        if not post:
+            return jsonify(success=False), 404
 
         body = request.get_json(force=True)
         cmt = body.get("comment", "")
         user = db.session.query(Users).filter(Users.id == user_id).first()
+        if not post:
+            return jsonify(success=False), 403
         new_cm = Comments(user_id=user_id, post_id=post_id, content=cmt)
         new_cm.user = user
         new_cm.post = post
