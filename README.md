@@ -17,3 +17,8 @@
 ## Run
 1. In `tech-blog` folder, run `export PYTHONPATH=$PWD`  
 2. run `python src/main.py`  
+
+# Development
+1. Upgrade models, migrating models
+In `src` folder, run `alembic revision --autogenerate -m "<your change logs>"`  
+And run `alembic upgrade head` to upgrade your database with latest models
