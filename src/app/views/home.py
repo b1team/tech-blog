@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask import session, request, url_for
-from app.models import Posts, Tags
-from app import db
+from src.app.models import Posts, Tags
+from src.app import db
 from flask import redirect
 
 

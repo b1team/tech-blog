@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, abort
 from flask import request, session, Markup, redirect, url_for, request, jsonify
-from app.models import Posts, Votes, Tags, Users, Comments
-from app import db
+from src.app.models import Posts, Votes, Tags, Users, Comments
+from src.app import db
 from slugify import slugify
 from datetime import datetime, timedelta
 from misaka import Markdown, HtmlRenderer
 from datetime import timedelta
-from app import utils
+from src.app import utils
 from math import ceil
 
 

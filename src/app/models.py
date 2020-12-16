@@ -1,4 +1,4 @@
-from app import db
+from src.app import db
 import datetime
 
 post_tags = db.Table('post_tags',
