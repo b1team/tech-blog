@@ -7,7 +7,7 @@
 
 ## Configuration
 1. `cp .env.template .env`  
-2. Add required configurations
+2. `vim .env` and add required configurations
 
 ## Database migration
 1. Run `export PYTHONPATH=$PWD`  
