@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %} Techblog - Home {% endblock %}
+    <!--banner-->
+    <section class="section" style="padding-top:1.1rem;">
+        <div class="container-fluid">
+            <div class="mansory-blog clearfix">
+                <img class='img-fluid' src="{{ url_for('static', filename='images/version/banner.jpg') }}" alt="">
+            </div>
+        </div>
+    </section>
 
 {% block content %}
 <!-- Page Content -->

@@ -3,7 +3,11 @@ from app.models import Posts, Tags
 from flask import Blueprint
 from flask import render_template
 from flask import request, url_for, session
+from flask import jsonify
 from sqlalchemy import func, or_
+from app import utils
+from datetime import timedelta
+
 
 sidebar_bp = Blueprint("sidebar_bp", __name__,
                     template_folder="templates", static_folder="static")
@@ -40,3 +44,34 @@ def tag(name):
 
     return render_template("sidebar/tag.html", login=login, user=user,
             posts=posts, tags1=tags1, tags2=tags2, tag=tag, url=url)
+
+
+@sidebar_bp.route("/favorite", methods=["GET"])
+def favorite():
+    posts = db.session.query(Posts).join(Posts.votes).all()
+
+    data = []
+    for post in posts:
+        ls = []
+        for vote in post.votes:
+            ls.append(vote.vote)
+        up = ls.count(True)
+        down = ls.count(False)
+        data.append((up-down, post))
+    
+    data.sort(key=utils.takeFirst, reverse=True)
+
+    ls_posts = []
+    for post in data:
+        ls_posts.append(post[1])
+
+    result = []
+    for post in ls_posts:
+        data = utils.row2dict(post)
+        data['tags'] = [tag.name for tag in data['tags']]
+        data['votes'] = [vote.vote for vote in data['votes']]
+        data['created_at'] = post.created_at + timedelta(hours=7)
+        result.append(data)
+
+    return jsonify(top_5=result[:5])
+    
