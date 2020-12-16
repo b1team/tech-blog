@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask import request, redirect, url_for, session, flash
-from app import db
-from app.models import Users
+from src.app import db
+from src.app.models import Users
 
 
 login_bp = Blueprint("login_bp", __name__, template_folder="templates", static_folder="static")

@@ -1,11 +1,11 @@
-from app import db
-from app.models import Posts, Tags
+from src.app import db
+from src.app.models import Posts, Tags
 from flask import Blueprint
 from flask import render_template
 from flask import request, url_for, session
 from flask import jsonify
 from sqlalchemy import func, or_
-from app import utils
+from src.app import utils
 from datetime import timedelta
 
 

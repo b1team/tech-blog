@@ -1,7 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
-from flask_migrate import Migrate
+from src.config import Config
 from flask_cors import CORS
 from .context_processors import format_date
 
@@ -10,7 +9,6 @@ app = Flask(__name__)
 CORS(app)
 app.config.from_object(Config)
 db = SQLAlchemy(app)
-migrate = Migrate(app, db)
 
 @app.context_processor
 def processors():
@@ -37,5 +35,5 @@ def page_not_found(e):
     return redirect(url_for('login_bp.login'))
 
 
-from app import models
-from app import views
+from src.app import models
+from src.app import views

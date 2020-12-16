@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for
 from flask import request, flash
-from app import db
-from app.models import Users
+from src.app import db
+from src.app.models import Users
 
 register_bp = Blueprint("register_bp", __name__, template_folder="templates", static_folder="static")
 

@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, abort
 from flask import request, session
-from app import db
-from app.models import Users
+from src.app import db
+from src.app.models import Users
 
 
 profile_bp = Blueprint("profile_bp", __name__, template_folder="templates", static_folder="static")
