@@ -1,7 +1,4 @@
-window.onload = function() {
-    popular();
-    tags();
-};
+
 
 String.prototype.format = function() {
   a = this;
@@ -35,7 +32,7 @@ function popular(){
     })
 }
 
-function tags(){
+function loadtag(){
     axios.get("/tags")
         .then(function(response){
             console.log(response);

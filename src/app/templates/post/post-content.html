@@ -57,7 +57,14 @@
 
     <!-- Sidebar Widgets Column -->
     {% include 'sidebar/sidebar.html' %}
-
+    <script type="text/javascript">
+      window.onload = function(){
+        loadComments();
+        loadvote();
+        loadtag();
+        popular();
+      }
+    </script>
   </div>
   <!-- /.row -->
 

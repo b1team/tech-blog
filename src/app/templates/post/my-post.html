@@ -28,7 +28,7 @@
           <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
           <p>{{ post.brief }}</p>
           {% for tag in post['tags'] %}
-          <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}"
+          <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.get_tag', slug=tag.slug) }}"
               title="">{{ tag.name }}</a></small>
           {% endfor %}
           <small><a href="tech-single.html" title="">{{ format_date(post.created_at) }}</a></small>
@@ -53,4 +53,15 @@
   <!-- /.row -->
 </div>
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+      window.onload = function(){
+        loadtag();
+        popular();
+      }
+    </script>
+    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 {% endblock %}

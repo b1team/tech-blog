@@ -63,3 +63,14 @@
 </div>
 
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+      window.onload = function(){
+        loadtag();
+        popular();
+      }
+    </script>
+    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+{% endblock %}

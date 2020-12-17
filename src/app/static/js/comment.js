@@ -1,9 +1,4 @@
 
-  window.onload = function() {
-    loadComments(0);
-    loadvote();
-};
-
 String.prototype.format = function() {
   a = this;
   for (k in arguments) {
