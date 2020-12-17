@@ -38,7 +38,7 @@
             <h4><a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">{{ post.title }}</a></h4>
             <p>{{ post.brief }}</p>
             {% for tag in post['tags'] %}
-            <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.tag', name=tag.name) }}"
+            <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.get_tag', slug=tag.slug) }}"
                 title="">{{ tag.name }}</a></small>
             {% endfor %}
             <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
@@ -62,8 +62,4 @@
   <!-- /.row -->
 </div>
 
-{% endblock %}
-
-{% block script %}
-    <script src="{{ url_for('static', filename='js/popular.js') }}"></script>
 {% endblock %}

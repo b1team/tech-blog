@@ -1,5 +1,6 @@
 window.onload = function() {
     popular();
+    tags();
 };
 
 String.prototype.format = function() {
@@ -32,4 +33,21 @@ function popular(){
     .catch(function(err) {
         console.log(err);
     })
+}
+
+function tags(){
+    axios.get("/tags")
+        .then(function(response){
+            console.log(response);
+            var tags = response.data.tags;
+            for (tag of tags){
+                var node = document.createElement("li")
+                var html =`<a href="/tag/{0}">{1}({2})</a>`.format(tag.slug, tag.name, tag.count);
+                node.innerHTML = html;
+                document.getElementById("list-tags").appendChild(node);
+            }
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
 }
