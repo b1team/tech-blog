@@ -1,6 +1,6 @@
 from src.app import db
 from src.app.models import Posts, Tags
-from flask import Blueprint
+from flask import Blueprint, abort
 from flask import render_template
 from flask import request, url_for, session
 from flask import jsonify
@@ -20,30 +20,25 @@ def search():
     query = request.args.get("q", type=str)
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Posts).outerjoin(Posts.tags).filter(Posts.deleted==False,or_(func.lower(Posts.title).contains(query.lower()), func.lower(Tags.name).contains(query.lower()))).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5) 
-    tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2]
-    tags2 = tags[len(tags)//2:]
     url = '/search'
 
+    return render_template("sidebar/search.html", login=login, user=user, posts=posts, query=query, url=url)
 
-    return render_template("sidebar/search.html", login=login, user=user, posts=posts,query=query, tags1=tags1, tags2=tags2, url=url)
 
-
-@sidebar_bp.route("/tag/<name>", methods=["GET","POST"])
-def tag(name):
+@sidebar_bp.route("/tag/<slug>", methods=["GET","POST"])
+def get_tag(slug):
     login = session.get("logged_in")
     user = session.get("username")
-    tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2]
-    tags2 = tags[len(tags)//2:]
-    tag = name
-    url = '/tag/{}'.format(name)
+    tag = db.session.query(Tags.name).filter(Tags.slug == slug).first()
+    if not tag:
+        return abort(404)
+    url = '/tag/{}'.format(slug)
 
     page = request.args.get('page', 1, type=int)
-    posts = db.session.query(Posts).join(Tags.posts).filter(Tags.name==name, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+    posts = db.session.query(Posts).join(Tags.posts).filter(Tags.slug==slug, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
 
     return render_template("sidebar/tag.html", login=login, user=user,
-            posts=posts, tags1=tags1, tags2=tags2, tag=tag, url=url)
+            posts=posts, tag=tag.name, url=url)
 
 
 @sidebar_bp.route("/favorite", methods=["GET"])
@@ -76,3 +71,12 @@ def favorite():
 
     return jsonify(posts=result[:num_of_posts])
     
+
+@sidebar_bp.route("/tags", methods=["GET"])
+def get_top_tags():
+    num_of_tags = request.args.get("num_of_tags")
+    if not num_of_tags or num_of_tags < 0:
+        num_of_tags = 5
+    top_tags = db.session.query(Tags.name, Tags.slug, func.count("*").label("count")).join(Posts.tags).group_by(Tags.name, Tags.slug).order_by(func.count("*").desc()).limit(num_of_tags)
+    
+    return jsonify(tags=[dict(name=tag.name, slug=tag.slug, count=tag.count) for tag in top_tags])

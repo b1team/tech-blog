@@ -20,29 +20,15 @@
             <h5 class="widget-header">Tags</h5>
             <div class="widget-body">
                 <div class="row">
-                    <div class="col-lg-6">
-                        <ul class="list-unstyled mb-0">
-                            {% for tag in tags1 %}
-                            <li>
-                                <a href="{{ url_for("sidebar_bp.tag", name=tag.name) }}">{{ tag.name }}</a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <div class="col-lg-6">
-                        <ul class="list-unstyled mb-0">
-                            {% for tag in tags2 %}
-                            <li>
-                                <a href="{{ url_for("sidebar_bp.tag", name=tag.name) }}">{{ tag.name }}</a>
-                            </li>
-                            {% endfor %}
+                    <div class="col-lg-12">
+                        <ul id='list-tags' class="list-unstyled mb-0">
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Side Widget -->
+        <!-- Popular -->
         <div class="widget my-4">
             <div class="sidebar">
                 <div class="widget">

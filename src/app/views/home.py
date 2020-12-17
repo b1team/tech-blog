@@ -14,14 +14,11 @@ def home():
 
     login = session.get("logged_in")
     user = session.get("username")
-    tags = db.session.query(Tags).all()
-    tags1 = tags[:len(tags)//2]
-    tags2 = tags[len(tags)//2:]
 
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Posts).filter(Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
     url = '/home'
 
     return render_template("home/blog.html", login=login, user=user,
-            posts=posts, tags1=tags1, tags2=tags2, url=url)
+            posts=posts, url=url)
 
