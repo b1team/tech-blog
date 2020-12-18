@@ -17,10 +17,11 @@ def upload_image(file_name: str = None):
                filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
     if 'file' not in request.files:
-        return jsonify(message='No file part', success=False), 400
+        return dict(message='No file part', success=False)
     file = request.files['file']
+    print(file)
     if file.filename == '':
-        return jsonify(message='No selected file', success=False), 400
+        return dict(message='No selected file', success=False)
     if file and allowed_file(file.filename):
         if not file_name:
             filename = secure_filename(file.filename)
@@ -30,29 +31,38 @@ def upload_image(file_name: str = None):
             filename = f"{file_name}{ext}"
         file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename) 
         file.save(file_path)
-        return jsonify(path=f"/images/{filename}", message="File successfully uploaded", success=True), 201
+        return dict(path=f"/images/{filename}", message="File successfully uploaded", success=True)
     else:
-        return jsonify(message="File extension is invalid", success=False), 400
+        return dict(message="File extension is invalid", success=False)
 
 
 @upload_file_router.route('/image/upload', methods=['POST'])
 def upload_file():
-    return upload_image()
+    upload = upload_image()
+    if upload["success"]:
+        return upload, 200
+    else:
+        return upload, 400
 
 
 @upload_file_router.route('/avatar/upload', methods=['POST'])
 def upload_avatar():
     user_id = session.get("user_id")
+    if not user_id:
+        print("user_id")
+        return abort(401)
     user = db.session.query(Users).get(user_id)
     if not user:
+        print("USER")
         return abort(404)
-    if not user_id:
-        return abort(401)
     upload = upload_image(f"avatar/{user_id}")
     if upload["success"]:
         user.avatar_url = upload["path"]
         db.session.commit()
-    return upload
+    if upload["success"]:
+        return upload, 200
+    else:
+        return upload, 400
 
 
 @upload_file_router.route('/images/avatar/<filename>')

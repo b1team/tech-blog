@@ -11,21 +11,21 @@ profile_bp = Blueprint("profile_bp", __name__, template_folder="templates", stat
 def profile():
     login = session.get("logged_in")
     if login:
-        cuser = session.get("username")
-        update_user = db.session.query(Users).filter(Users.username==cuser).first()
+        username = session.get("username")
+        user = db.session.query(Users).filter(Users.username==username).first()
 
         if request.method == "POST":
-            email = request.form["email"]
-            username = request.form["username"]
-            name = request.form["name"]
-            phone_number = request.form["phone"]
+            f_email = request.form["email"]
+            f_username = request.form["username"]
+            f_name = request.form["name"]
+            f_phone_number = request.form["phone"]
             
-            update_user.email = email
-            update_user.username = username
-            update_user.name = name
-            update_user.phone_number = phone_number
+            update_user.email = f_email
+            update_user.username = f_username
+            update_user.name = f_name
+            update_user.phone_number = f_phone_number
             db.session.commit()
+        return render_template("profile/profile.html",login=login, user=username, uuser=user)
     else:
         return abort(401)
 
-    return render_template("profile/profile.html",login=login, user=cuser, uuser=update_user)
