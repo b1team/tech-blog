@@ -7,12 +7,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!--  Share face    -->
+    <meta property="og:url"           content="/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Tech blog" />
+    <meta property="og:description"   content="Tech blog by Vuonglv and Dinh Ngoc" />
+    <meta property="og:image"         content="{{ url_for('static', filename='images/blog.jpg') }}" />
+
     <title>{% block title %}{% endblock %}</title>
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/blog-post.css') }}" rel="stylesheet">
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/font-awesome.js') }}"></script>
@@ -36,6 +43,7 @@
 
 <body>
     <!-- Navigation -->
+
     <div id="wrapper">
         <header class="tech-header ">
                 <nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-inverse">
@@ -154,7 +162,6 @@
         </footer>	
 
     <!-- Bootstrap core JavaScript -->
-        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
         <!-- NEW -->
         <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>

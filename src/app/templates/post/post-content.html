@@ -8,7 +8,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}" />
 {% endblock %}
 {% block content %}
-
+  <script>
+    function share_fb(url) {
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+url,'facebook-share-dialog',"width=626, height=436")
+}
+  </script>
 <!-- Page Content -->
 <div class="container">
   <div class="row">
@@ -41,7 +45,7 @@
 
       <div class="post-sharing">
         <ul class="list-inline">
-          <li><a href="#" class="fb-button btn btn-primary"><i class="fa fa-facebook"></i> <span
+          <li><a href="#" class="fb-button btn btn-primary" onclick="share_fb('http://localhost/posts/{{ post.slug }}');return false;" rel="nofollow" share_url="http://localhost/posts/{{ post.slug }}" target="_blank"><i class="fa fa-facebook"> </i> <span
                 class="down-mobile">Share on Facebook</span></a></li>
           <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span
                 class="down-mobile">Tweet on Twitter</span></a></li>

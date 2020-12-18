@@ -1,18 +1,18 @@
 <nav aria-label="...">
-<ul class="pagination pagination-lg mb-4">
+<ul class="pagination justify-content-center">
     {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if posts.page == page_num %}
                 {% if page_title == "Search" %}
-                    <li class="page-item disabled"><a class="page-link mb-4" href="{{ url }}&page={{ page_num }}">{{ page_num }}</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="{{ url }}&page={{ page_num }}">{{ page_num }}</a></li>
                 {% else %}
-                    <li class="page-item disabled"><a class="page-link mb-4" href="{{ url }}?page={{ page_num }}">{{ page_num }}</a></li>
+                    <li class="page-item disabled"><a class="page-link" href="{{ url }}?page={{ page_num }}">{{ page_num }}</a></li>
                 {% endif %}
             {% else %}
                 {% if page_title == "Search" %}
-                    <li class='page-item'><a class="page-link mb-4" href="{{ url }}&page={{ page_num }}">{{ page_num }}</a></li>>
+                    <li class='page-item'><a class="page-link" href="{{ url }}&page={{ page_num }}">{{ page_num }}</a></li>
                 {% else %}
-                    <li class='page-item'><a class="page-link mb-4" href="{{ url }}?page={{ page_num }}">{{ page_num }}</a></li>>
+                    <li class='page-item'><a class="page-link" href="{{ url }}?page={{ page_num }}">{{ page_num }}</a></li>
                 {% endif %}
             {% endif %}
         {% else %}
