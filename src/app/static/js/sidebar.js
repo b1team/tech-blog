@@ -13,16 +13,20 @@ function popular(){
     .then(function (response) {
         console.log(response)
         var posts = response.data.posts;
+        var thumbnail = '/static/images/tech_blog_04.jpg'
         for(post of posts){
+            if (post.thumbnail){
+                thumbnail = post.thumbnail;
+            }
             var node = document.createElement("div");
             var html = `
                     <a href="/posts/{0}" class="list-group-item list-group-item-action flex-column align-items-start">
-                        <div class="w-100 justify-content-between">
-                            <img src="/static/images/tech_blog_04.jpg" alt="pic" class="img-fluid float-left">
-                            <h5 class="mb-1">{1}</h5>
-                            <small>{2}</small>
+                        <div class="justify-content-between">
+                            <img src="{1}" alt="pic" class="img-fluid float-left">
+                            <h5 class="mb-1">{2}</h5>
+                            <small>{3}</small>
                         </div>
-                    </a>`.format(post.slug, post.title, post.created_at);
+                    </a>`.format(post.slug, thumbnail, post.title, post.created_at);
             node.innerHTML = html;
             document.getElementById("popular").appendChild(node);
         }

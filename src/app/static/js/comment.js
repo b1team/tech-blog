@@ -15,18 +15,23 @@ String.prototype.format = function() {
         var comments = response.data.data;
         for (comment of comments) {
           var node = document.createElement("div");
+          var avatar_url = "/static/images/50x50.png";
+          if(comment.avatar_url){
+            avatar_url = comment.avatar_url;
+          }
           var comment_html = 
                `<div class="comment media mb-4">
-                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <img class="d-flex mr-3 rounded-circle" src="{0}" alt="">
                 <div class="media-body">
-                <h5 class="mt-0"> {0}  - <small>{1}</small></h5>
-                 {2}
+                <h5 class="mt-0"> {1}  - <small>{2}</small></h5>
+                 {3}
               </div>
-            </div>`.format(comment.username, comment.created_at, comment.content);
+            </div>`.format(avatar_url, comment.username, comment.created_at, comment.content);
+
+          }
           node.innerHTML = comment_html;
-        document.getElementById("comment-box").appendChild(node);
-        }
-        pagenation(response.data.num_of_page);
+          document.getElementById("comment-box").appendChild(node);
+          pagenation(response.data.num_of_page);
       })
       .catch(function (error) {
         // handle error

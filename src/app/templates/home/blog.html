@@ -28,7 +28,7 @@
           <div class="col-md-4">
             <div class="post-media">
               <a href="{{ url_for('post_bp.post_content', slug=post.slug) }}" title="">
-                <img src="{{ url_for('static', filename='images/tech_blog_04.jpg') }}" alt="none" class="img-fluid">
+                <img src="{{  post.thumbnail or url_for('static', filename='images/tech_blog_04.jpg') }}" alt="none" class="img-fluid">
                 <div class="hovereffect"></div>
               </a>
             </div><!-- end media -->

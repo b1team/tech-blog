@@ -90,6 +90,8 @@ def loadcmt():
     result = []
     for comment in comments.all():
         data = utils.row2dict(comment)
+        user = db.session.query(Users.avatar_url).filter(Users.id==comment.user_id).first()
+        data['avatar_url'] = user.avatar_url
         data['username'] = comment.user.username
         data['created_at'] = comment.created_at + timedelta(hours=7)
         result.append(data)
@@ -108,7 +110,7 @@ def addcmt():
             return jsonify(success=False), 404
 
         body = request.get_json(force=True)
-        cmt = body.get("comment", "")
+        cmt = body.get("comment", "").strip()
         user = db.session.query(Users).filter(Users.id == user_id).first()
         if not post:
             return jsonify(success=False), 403

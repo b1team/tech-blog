@@ -1706,3 +1706,8 @@ blockquote p {
 .editor-preview img {
     width: 100%;
 }
+
+.comment img{
+    height: 50px;
+    width: 50px;
+}
