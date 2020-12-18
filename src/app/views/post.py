@@ -119,7 +119,9 @@ def addcmt():
         db.session.add(new_cm)
         db.session.commit()
 
-        return jsonify(success=True)
+        return jsonify(login=True, success=True)
+    else:
+        return jsonify(login=False)
 
 
 @post_bp.route("/update/<int:id>", methods=["GET", "POST"])
@@ -191,13 +193,15 @@ def delete(id):
     else:
         return abort(401)
 
-    return redirect(url_for('home_bp.home'))
+    return redirect(url_for("post_bp.myposts"))
 
         
 @post_bp.route("/myposts", methods=["GET", "POST"])
 def myposts():
     login = session.get("logged_in")
     url = '/myposts'
+    page_title = 'My posts'
+
     if login:
         user = session.get("username")
         user_id = session.get("user_id")
@@ -207,13 +211,31 @@ def myposts():
     else:
         return abort(401)
 
-    return render_template("/post/my-post.html", login=login, posts=posts, user=user, url=url)
+    return render_template("/post/my-post.html", login=login, posts=posts, user=user, url=url, page_title=page_title)
+
+
+@post_bp.route("/user/<username>/posts", methods=["GET", "POST"])
+def get_user_posts(username):
+    login = session.get("logged_in")
+    url = f'/user/{username}/posts'
+    user = db.session.query(Users.username, Users.id).filter(Users.username == username).first()
+
+    if user:
+        page_title = f'{user.username} posts'
+        page = request.args.get('page', 1, type=int)
+        posts = db.session.query(Posts).filter(Posts.user_id == user.id, Posts.deleted==False).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5)
+        return render_template("/sidebar/search.html", login=login, posts=posts, user=user.username, url=url, page_title=page_title)
+    else:
+        return abort(404)
 
 
 @post_bp.route("/addvote", methods=["POST"])
 def addvote():
     post_id = session.get('post_id')
-    
+    login = session.get("logged_in")
+    if login is not True:
+        return jsonify(login=False)
+
     user_id = session.get('user_id')
     user_vote = request.args.get('vote', 'up')
     user_vote = True if user_vote == 'up' else False
@@ -232,7 +254,7 @@ def addvote():
         print(e)
         return {"status": "error", "message": str(e)}, 500
     else:
-        return {"status": "success", "message": "voted"}, 200
+        return {"login": True,"status": "success", "message": "voted"}, 200
 
 
 @post_bp.route("/loadvote", methods=["GET"])

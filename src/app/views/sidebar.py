@@ -20,9 +20,10 @@ def search():
     query = request.args.get("q", type=str)
     page = request.args.get('page', 1, type=int)
     posts = db.session.query(Posts).outerjoin(Posts.tags).filter(Posts.deleted==False,or_(func.lower(Posts.title).contains(query.lower()), func.lower(Tags.name).contains(query.lower()))).order_by(Posts.created_at.desc()).paginate(page=page, per_page=5) 
-    url = '/search'
+    url = f'/search?q={query}'
+    page_title = 'Search'
 
-    return render_template("sidebar/search.html", login=login, user=user, posts=posts, query=query, url=url)
+    return render_template("sidebar/search.html", login=login, user=user, posts=posts, query=query, url=url, page_title=page_title)
 
 
 @sidebar_bp.route("/tag/<slug>", methods=["GET","POST"])
@@ -43,7 +44,7 @@ def get_tag(slug):
 
 @sidebar_bp.route("/favorite", methods=["GET"])
 def favorite():
-    posts = db.session.query(Posts).outerjoin(Posts.votes)
+    posts = db.session.query(Posts).outerjoin(Posts.votes).filter(Posts.deleted==False)
     default_num_of_posts = 5
     try:
         num_of_posts = int(request.args.get("top", default_num_of_posts))

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} SEARCH {% endblock %}
+{% block title %} {{ page_title }} {% endblock %}
 
 {% block content %}
 <!-- Page Content -->
@@ -8,9 +8,12 @@
   <div class="row">
     <!-- Blog Entries Column -->
     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-      <h1 class="my-4">SEARCH - {{ query }}</h1>
-      <small></small>
-      </h1>
+      {% if query %}
+        <h1 class="my-4">{{ page_title }} - {{ query }}</h1>
+      {% else %}
+        <h1 class="my-4">{{ page_title }}</h1>
+      {% endif %}
+      
 
       <!-- Blog Post -->
       {% for post in posts.items %}
@@ -32,7 +35,7 @@
               title="">{{ tag.name }}</a></small>
           {% endfor %}
           <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
-          <small><a href="#" title="">by {{ post.user.username }}</a></small>
+          <small><a href="/user/{{ post.user.username }}/posts" title="">by {{ post.user.username }}</a></small>
           <small><a href="#" title=""><i class="fa fa-eye"></i> 4441</a></small>
         </div><!-- end meta -->
       </div>
@@ -62,6 +65,5 @@
         popular();
       }
     </script>
-    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 {% endblock %}

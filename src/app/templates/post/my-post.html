@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %} Techblog - My posts {% endblock %}
+{% block title %} Techblog - {{ page_title }} {% endblock %}
 
 {% block content %}
 <!-- Page Content -->
@@ -31,11 +31,11 @@
           <small class="firstsmall"><a class="bg-orange" href="{{ url_for('sidebar_bp.get_tag', slug=tag.slug) }}"
               title="">{{ tag.name }}</a></small>
           {% endfor %}
-          <small><a href="tech-single.html" title="">{{ format_date(post.created_at) }}</a></small>
-          <small><a href="tech-author.html" title="">by {{ post.user.username }}</a></small>
-          <small><a href="tech-single.html" title=""><i class="fa fa-eye"></i> 4441</a></small>
+          <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
+          <small><a href="/user/{{ post.user.username }}/posts" title="">by {{ post.user.username }}</a></small>
+          <small><a href="#" title=""><i class="fa fa-eye"></i> 4441</a></small>
           <a href="{{ url_for('post_bp.update', id=post.id) }}" class="badge badge-success">Update</a>
-          <a href="{{ url_for('post_bp.delete', id=post.id) }}" class="badge badge-danger">Delete</a>
+          <a onclick="return func_delete();" href="{{ url_for('post_bp.delete', id=post.id) }}" class="badge badge-danger">Delete</a>
         </div><!-- end meta -->
       </div>
       <hr class="invis">
@@ -62,6 +62,5 @@
         popular();
       }
     </script>
-    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 {% endblock %}

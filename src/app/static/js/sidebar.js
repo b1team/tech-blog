@@ -48,3 +48,12 @@ function loadtag(){
             console.log(err);
         })
 }
+
+function func_delete() {
+	var r = confirm("Delete post");
+	if (r == true) {
+		return true;
+	} else {
+		return false;
+	}
+}

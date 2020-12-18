@@ -32,7 +32,7 @@
               title="">{{ tag.name }}</a></small>
           {% endfor %}
           <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
-          <small><a href="#" title="">by {{ post.user.username }}</a></small>
+          <small><a href="/user/{{ post.user.username }}/posts" title="">by {{ post.user.username }}</a></small>
           <small><a href="#" title=""><i class="fa fa-eye"></i> 4441</a></small>
         </div><!-- end meta -->
       </div>
@@ -60,6 +60,5 @@
         popular();
       }
     </script>
-    <script src="{{ url_for('static', filename='js/comment.js') }}"></script>
     <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
 {% endblock %}

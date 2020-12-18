@@ -37,11 +37,25 @@ String.prototype.format = function() {
   function addComment() {
     var content = document.getElementById("create_comment").value;
     if(!content){
-      alert("Please enter comment");
-      return
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please enter content',
+          })
+      return;
     }
     axios.post("/addcmt", {"comment": content})
       .then(function (response) {
+        var login = response.data.login;
+        if(!login){
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Please login',
+            footer: '<a href="/login">Login</a>'
+          })
+        }
+
         document.getElementById("create_comment").value = "";
         loadComments()
       })
