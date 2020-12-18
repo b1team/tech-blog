@@ -1,0 +1,16 @@
+version: "3.5"
+
+services:
+  web:
+    image: techblog:latest
+    env_file:
+      - .env
+    command: python src/main.py
+    restart: unless-stopped
+    ports:
+      - "8080:5000"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200M"
+        max-file: "5"
