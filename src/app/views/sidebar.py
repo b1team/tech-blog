@@ -78,6 +78,6 @@ def get_top_tags():
     num_of_tags = request.args.get("num_of_tags")
     if not num_of_tags or num_of_tags < 0:
         num_of_tags = 5
-    top_tags = db.session.query(Tags.name, Tags.slug, func.count("*").label("count")).join(Posts.tags).group_by(Tags.name, Tags.slug).order_by(func.count("*").desc()).limit(num_of_tags)
+    top_tags = db.session.query(Tags.name, Tags.slug, func.count("*").label("count")).join(Posts.tags).filter(Posts.deleted==False).group_by(Tags.name, Tags.slug).order_by(func.count("*").desc()).limit(num_of_tags)
     
     return jsonify(tags=[dict(name=tag.name, slug=tag.slug, count=tag.count) for tag in top_tags])
