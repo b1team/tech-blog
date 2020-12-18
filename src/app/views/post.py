@@ -24,13 +24,14 @@ def create_post():
         if request.method == "POST":
             title = request.form["title"]
             brief = request.form["brief"]
+            thumbnail = request.form["thumbnail"]
             body = request.form["body"]
             slug = "{0}-{1}".format(slugify(title),
                                     str(datetime.utcnow().timestamp()).replace('.', ''))
 
             user = db.session.query(Users).filter(Users.id == user_id).first()
 
-            post = Posts(title=title,brief=brief, slug=slug, content=body)
+            post = Posts(title=title,brief=brief, thumbnail=thumbnail, slug=slug, content=body)
 
             tags = request.form["tags"].strip()
             list_tag = []
@@ -147,6 +148,7 @@ def update(id):
         if request.method == "POST":
             title = request.form["title"]
             brief = request.form["brief"]
+            thumbnail = request.form["thumbnail"]
             body = request.form["body"]
             slug = "{0}-{1}".format(slugify(title),
                                     str(datetime.utcnow().timestamp()).replace('.', ''))
@@ -154,6 +156,7 @@ def update(id):
             post_update.title = title
             post_update.slug = slug 
             post_update.brief = brief
+            post_update.thumbnail = thumbnail
             post_update.content = body
             post_update.tags = []
         
