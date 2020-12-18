@@ -3,7 +3,7 @@
 {% block title %} Techblog- {{ action.title() }} {% endblock %}
 
 {% block head %}
-    <script src="{{ url_for('static', filename='showdown.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/showdown.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/simplemde.min.css') }}">
     <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
 {% endblock %}
@@ -22,6 +22,10 @@
                 <div class="form-group">
                     <label for="brief">Brief:</label>
                     <input type="text" class="form-control" id="brief" placeholder="Enter brief" name="brief">
+                </div>
+                <div class="form-group">
+                    <label for="brief">Thumbnail:</label>
+                    <input type="text" class="form-control" id="thumbnail" placeholder="Enter thumbnail" name="thumbnail">
                 </div>
                 <div class="form-group">
                     <label for="tags">Tags:</label>
