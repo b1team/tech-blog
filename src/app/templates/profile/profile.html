@@ -1,36 +1,48 @@
 {% extends 'base.html' %}
 
-{% block title %} ABOUT {% endblock %}
+{% block title %} Profile {% endblock %}
 
 {% block content %}
 
-<div class="container" style="margin-left: 35%;">
-    <h1 style="margin-left: 13%;">INFO</h1>
-    <form action="/about", method="POST">
-        <div class="card" style="width:400px; align-items: center;">
-            <img class="card-img-top" src="{{ url_for('static', filename='images/person.png') }}" alt="Card image" style="width:50%">
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" value="{{ uuser["email"] }}">
+<div class="container">
+    <div class="row" id="profile-box">
+        <div class="col-md-4" id="avatar-form">
+                <div class="row">
+                    <img class="card-img-top" id="avatar" src="{{ uuser["avatar_url"] or url_for('static', filename='images/person.png') }}" alt="Card image">
                 </div>
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{ uuser["username"] }}">
+                <div class="row mt-4">
+                    <input id="file-input" type=file name=file class="mb-4" accept="image/*">
+                    <button onclick="upload_file();" class="btn btn-primary">Update avatar</button>
                 </div>
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ uuser["name"] }}">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone number:</label>
-                    <input type="text" class="form-control" id="phone" name="phone" value="{{ uuser["phone_number"] }}">
-                </div>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </div>
         </div>
-    </form>
-
+        <div class="col-md-8" id="information-form">
+            <form action="/profile", method="POST">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="email" class="form-control" id="email" value="{{ uuser["email"] }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username" name="username" value="{{ uuser["username"] }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{ uuser["name"] }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone number:</label>
+                            <input type="text" class="form-control" id="phone" name="phone" value="{{ uuser["phone_number"] }}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Information</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
 {% endblock %}
+{% block script %}
+    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+{%endblock %}

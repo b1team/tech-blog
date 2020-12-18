@@ -1706,3 +1706,14 @@ blockquote p {
 .editor-preview img {
     width: 100%;
 }
+
+
+#profile-box {
+    padding-top: 10vh;
+    padding-bottom: 10vh
+}
+
+#avatar-form img {
+    width: 250px;
+    height: 250px;
+}
