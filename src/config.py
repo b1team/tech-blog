@@ -11,6 +11,7 @@ class Config(object):
     CSRF_ENABLED = True
     SECRET_KEY = os.getenv("SECRET_KEY")
     SQLALCHEMY_DATABASE_URI = os.getenv("TECHBLOG_POSTGRES_URI")
+    UPLOAD_FOLDER = os.getenv("TECHBLOG_UPLOAD_FOLDER")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
