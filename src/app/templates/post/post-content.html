@@ -1,12 +1,18 @@
 {% extends 'base.html' %}
 
-{% block title %}Techblog - {{ post.title }}{% endblock %}
 
 {% block head %}
+    <!--  Share face    -->
+    <meta property="og:url"           content="http://techblogvn.cf/posts/{{ post.slug }}" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="{{ post.title }}" />
+    <meta property="og:description"   content="{{ post.brief }}" />
+    <meta property="og:image"         content="{{ post.thumbnail or url_for('static', filename='images/blog.jpg') }}" />
     <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script> -->
     <script src="{{ url_for('static', filename='js/beautiful.alert.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/w3.css') }}" />
 {% endblock %}
+{% block title %}Techblog - {{ post.title }}{% endblock %}
 {% block content %}
   <script>
     function share_fb(url) {
@@ -45,10 +51,8 @@
 
       <div class="post-sharing">
         <ul class="list-inline">
-          <li><a href="#" class="fb-button btn btn-primary" onclick="share_fb('http://localhost/posts/{{ post.slug }}');return false;" rel="nofollow" share_url="http://localhost/posts/{{ post.slug }}" target="_blank"><i class="fa fa-facebook"> </i> <span
+          <li><a href="#" class="fb-button btn btn-primary" onclick="share_fb('http://techblogvn.cf/posts/{{ post.slug }}');return false;" rel="nofollow" share_url="http://techblogvn.cf/posts/{{ post.slug }}" target="_blank"><i class="fa fa-facebook"> </i> <span
                 class="down-mobile">Share on Facebook</span></a></li>
-          <li><a href="#" class="tw-button btn btn-primary"><i class="fa fa-twitter"></i> <span
-                class="down-mobile">Tweet on Twitter</span></a></li>
         </ul>
       </div><!-- end post-sharing -->
 
