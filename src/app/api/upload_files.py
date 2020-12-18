@@ -3,6 +3,8 @@ from werkzeug.utils import secure_filename
 from flask import (send_from_directory, jsonify, request, Blueprint, session,
         abort)
 from src.app import app
+from src.app import db
+from src.app.models import Users
 
 
 upload_file_router = Blueprint("upload_file_api", __name__)
@@ -41,9 +43,16 @@ def upload_file():
 @upload_file_router.route('/avatar/upload', methods=['POST'])
 def upload_avatar():
     user_id = session.get("user_id")
+    user = db.session.query(Users).get(user_id)
+    if not user:
+        return abort(404)
     if not user_id:
         return abort(401)
-    return upload_image(f"avatar/{user_id}")
+    upload = upload_image(f"avatar/{user_id}")
+    if upload["success"]:
+        user.avatar_url = upload["path"]
+        db.session.commit()
+    return upload
 
 
 @upload_file_router.route('/images/avatar/<filename>')
