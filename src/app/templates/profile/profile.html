@@ -2,6 +2,10 @@
 
 {% block title %} Profile {% endblock %}
 
+{% block head %}
+    <script src="{{ url_for('static', filename='js/beautiful.alert.min.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 
 <div class="container">
@@ -35,7 +39,7 @@
                             <label for="phone">Phone number:</label>
                             <input type="text" class="form-control" id="phone" name="phone" value="{{ uuser["phone_number"] }}">
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Information</button>
+                        <button type="submit" onclick="info_update();" class="btn btn-primary">Update Information</button>
                     </div>
                 </div>
             </form>
