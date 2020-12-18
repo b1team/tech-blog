@@ -1711,3 +1711,13 @@ blockquote p {
     height: 50px;
     width: 50px;
 }
+
+#profile-box {
+    padding-top: 10vh;
+    padding-bottom: 10vh
+}
+
+#avatar-form img {
+    width: 250px;
+    height: 250px;
+}
