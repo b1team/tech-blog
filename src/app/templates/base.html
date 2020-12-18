@@ -7,12 +7,19 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <!--  Share face    -->
+    <meta property="og:url"           content="/" />
+    <meta property="og:type"          content="website" />
+    <meta property="og:title"         content="Tech blog" />
+    <meta property="og:description"   content="Tech blog by Vuonglv and Dinh Ngoc" />
+    <meta property="og:image"         content="{{ url_for('static', filename='images/blog.jpg') }}" />
+
     <title>{% block title %}{% endblock %}</title>
     <!-- Bootstrap core CSS -->
     <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="{{ url_for('static', filename='css/blog-post.css') }}" rel="stylesheet">
-    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/font-awesome.js') }}"></script>
@@ -36,6 +43,7 @@
 
 <body>
     <!-- Navigation -->
+
     <div id="wrapper">
         <header class="tech-header ">
                 <nav class="navbar navbar-expand-lg navbar-toggleable-md navbar-inverse">
@@ -71,18 +79,6 @@
                             </li>
                             {% endif %}
                         </ul>
-                        <ul class="navbar-nav mr-2">
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-rss"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-android"></i></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="fa fa-apple"></i></a>
-                            </li>
-                        </ul>
-    
                     </div>
                 </nav>
         </header>
@@ -102,7 +98,9 @@
                         <div class="widget">
                             <div class="footer-text text-left">
                                 <a href="{{ url_for("home_bp.home") }}"><img src="{{ url_for('static', filename='images/tech-footer-logo.png') }}" alt="" class="img-fluid"></a>
-                                <p>Tech Blog is a technology blog, we sharing marketing, news and gadget articles.</p>
+                                <p>Sinh viên thực hiện: </p>
+                                <p>Lê Văn Vương - 18810310326</p>
+                                <p>Bùi Đình Ngọc - 18810310312</p>
                                 <div class="social">
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>              
                                     <a href="#" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
@@ -116,45 +114,18 @@
                             </div><!-- end footer-text -->
                         </div><!-- end widget -->
                     </div><!-- end col -->
-
-                    <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
-                        <div class="widget">
-                            <h5 class="widget-title">Popular Categories</h5>
-                            <div class="link-widget">
-                                <ul>
-                                    <li><a href="#">Marketing <span>(21)</span></a></li>
-                                    <li><a href="#">SEO Service <span>(15)</span></a></li>
-                                    
-                                </ul>
-                            </div><!-- end link-widget -->
-                        </div><!-- end widget -->
-                    </div><!-- end col -->
-
-                    <div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">
-                        <div class="widget">
-                            <h5 class="widget-title">Copyrights</h5>
-                            <div class="link-widget">
-                                <ul>
-                                    <li><a href="#">About us</a></li>
-                                    <li><a href="#">Advertising</a></li>
-                                   
-                                </ul>
-                            </div><!-- end link-widget -->
-                        </div><!-- end widget -->
-                    </div><!-- end col -->
                 </div>
 
                 <div class="row">
                     <div class="col-md-12 text-center">
                         <br>
-                        <div class="copyright">© Tech Blog. Design: <a href="http://html.design">HTML Design</a>.</div>
+                        <div class="copyright">© Tech Blog. Vuonglv & DinhNgoc</div>
                     </div>
                 </div>
             </div><!-- end container -->
         </footer>	
 
     <!-- Bootstrap core JavaScript -->
-        <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
         <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
         <!-- NEW -->
         <script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>

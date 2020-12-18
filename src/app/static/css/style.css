@@ -1439,7 +1439,7 @@ hr.invis3 {
 
 .footer-text p {
     margin-bottom: 0;
-    padding: 1rem 0 1.2rem;
+    padding: 0.2rem;
 }
 
 .blog-list-widget img {
@@ -1707,6 +1707,10 @@ blockquote p {
     width: 100%;
 }
 
+.comment img{
+    height: 50px;
+    width: 50px;
+}
 
 #profile-box {
     padding-top: 10vh;

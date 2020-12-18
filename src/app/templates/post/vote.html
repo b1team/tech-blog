@@ -19,6 +19,15 @@ function addvote(status) {
     axios.post('/addvote?vote={0}'.format(status))
         .then(function(response) {
             console.log(response);
+            var login = response.data.login;
+            if (!login) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Please login',
+                    footer: '<a href="/login">Login</a>'
+                })
+            }
             loadvote()
         })
 }
