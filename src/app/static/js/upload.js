@@ -8,15 +8,18 @@ function upload_file(){
         }
     }).then(function(response){
         console.log(response);
-        let timerInterval;
         Swal.fire({
-            icon: 'success',
-            title: 'Avatar has been updated',
-            showConfirmButton: false,
-            timer: 50000,
-        });
-        imagefile.value = "";
-        location.reload();
+			title: "Your avatar has been uploaded",
+			icon: "success",
+			confirmButtonColor: "#3085d6",
+			confirmButtonText: "OK",
+		}).then((result) => {
+			if (result.isConfirmed) {
+                imagefile.value = "";
+                location.reload();
+
+			}
+		});
     }).catch(function(error){
         response = error.response;
         Swal.fire({
