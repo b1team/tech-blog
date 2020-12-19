@@ -7,15 +7,15 @@ String.prototype.format = function() {
   return a
 }
 
-  function loadComments(page) {
+  function loadComments(page=0) {
     document.getElementById("comment-box").innerHTML = "";
     axios.get("/loadcmt?page={0}".format(page))
       .then(function (response) {
         console.log(response)
         var comments = response.data.data;
         for (comment of comments) {
-          var node = document.createElement("div");
           var avatar_url = "/static/images/50x50.png";
+          var node = document.createElement("div");
           if(comment.avatar_url){
             avatar_url = comment.avatar_url;
           }
@@ -27,10 +27,9 @@ String.prototype.format = function() {
                  {3}
               </div>
             </div>`.format(avatar_url, comment.username, comment.created_at, comment.content);
-
+            node.innerHTML = comment_html;
+            document.getElementById("comment-box").appendChild(node);
           }
-          node.innerHTML = comment_html;
-          document.getElementById("comment-box").appendChild(node);
           pagenation(response.data.num_of_page);
       })
       .catch(function (error) {
@@ -74,8 +73,8 @@ function pagenation(num_of_page){
     var num_of_page = num_of_page;
     for (var i = 0; i < num_of_page; i++){
       var node = document.createElement("div")
-      var pagenation = `<button type="button" class="btn btn-link" 
-      onclick="loadComments({0}); return false;">{1}</button>`.format(i, i+1);
+      var pagenation = `
+      <button type="button" class="btn btn-link" onclick="loadComments({0}); return false;">{1}</button>`.format(i, i+1);
       node.innerHTML = pagenation;
       document.getElementById('pagination').appendChild(node);
     }

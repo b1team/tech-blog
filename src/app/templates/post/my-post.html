@@ -2,6 +2,10 @@
 
 {% block title %} Techblog - {{ page_title }} {% endblock %}
 
+{% block head %}
+    <script src="{{ url_for('static', filename='js/beautiful.alert.min.js') }}"></script>
+{% endblock %}
+
 {% block content %}
 <!-- Page Content -->
 <div class="container">
@@ -34,8 +38,9 @@
           <small><a href="#" title="">{{ format_date(post.created_at) }}</a></small>
           <small><a href="/user/{{ post.user.username }}/posts" title="">by {{ post.user.username }}</a></small>
           <small><a href="#" title=""><i class="fa fa-eye"></i> 4441</a></small>
-          <a href="{{ url_for('post_bp.update', id=post.id) }}" class="badge badge-success">Update</a>
-          <a onclick="return func_delete();" href="{{ url_for('post_bp.delete', id=post.id) }}" class="badge badge-danger">Delete</a>
+          <hr class="invis">
+          <button class="btn-success" onclick="func_update('{{ post.id }}')">Update</button>
+          <button class="btn-danger" onclick="func_delete('{{post.id}}');">Delete</button>
         </div><!-- end meta -->
       </div>
       <hr class="invis">

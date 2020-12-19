@@ -8,11 +8,37 @@ function upload_file(){
         }
     }).then(function(response){
         console.log(response);
-        alert("Avatar was updated");
-        imagefile.value = "";
-        location.reload();
+        Swal.fire({
+			title: "Your avatar has been uploaded",
+			icon: "success",
+			confirmButtonColor: "#3085d6",
+			confirmButtonText: "OK",
+		}).then((result) => {
+			if (result.isConfirmed) {
+                imagefile.value = "";
+                location.reload();
+
+			}
+		});
     }).catch(function(error){
-        response = error.response
-        alert(response.data.message);
+        response = error.response;
+        Swal.fire({
+			title: response.data.message,
+			showClass: {
+				popup: "animate__animated animate__fadeInDown",
+			},
+			hideClass: {
+				popup: "animate__animated animate__fadeOutUp",
+			},
+		});
     })
+}
+
+function info_update(){
+    Swal.fire({
+		icon: "success",
+		title: "Your work has been saved",
+		showConfirmButton: false,
+		timer: 1500,
+	});
 }
