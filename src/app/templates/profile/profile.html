@@ -25,11 +25,11 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" value="{{ uuser["email"] }}">
+                            <input type="email" class="form-control" onchange="checkInfo(this.value, name=this.name)" id="email" name='email' value="{{ uuser["email"] }}" required>
                         </div>
                         <div class="form-group">
                             <label for="username">Username:</label>
-                            <input type="text" class="form-control" id="username" name="username" value="{{ uuser["username"] }}">
+                            <input type="text" class="form-control" onchange="checkInfo(this.value, name=this.name)" id="username" name="username" value="{{ uuser["username"] }}" required>
                         </div>
                         <div class="form-group">
                             <label for="name">Name:</label>
@@ -48,5 +48,13 @@
 </div>
 {% endblock %}
 {% block script %}
-    <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+    {% if user_exist %}
+	<script type="text/javascript">
+		Swal.fire({
+			icon: 'warning',
+			title: 'Warning',
+			text: 'username or email has been exist for another user',
+			});
+	</script>
+    {% endif %}
 {%endblock %}
