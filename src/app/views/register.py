@@ -18,7 +18,7 @@ def register():
         db_user = db.session.query(Users.id).filter(or_(Users.username==username, Users.email==email)).first()
 
         if db_user is None:
-            if password is confirmPassword:
+            if password == confirmPassword:
                 new_user = Users(username=username, password=password, email=email)
                 db.session.add(new_user)
                 db.session.commit()
