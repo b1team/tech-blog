@@ -27,10 +27,10 @@ def profile():
             if f_phone_number == 'None':
                 f_phone_number = None
             
-            email_exist = db.session.query(Users).filter(Users.email==f_email).first()
-            username_exist = db.session.query(Users).filter(Users.username==f_username).first()
+            email_exist = db.session.query(Users.id).filter(Users.email==f_email).first()
+            username_exist = db.session.query(Users.id).filter(Users.username==f_username).first()
 
-            if update_user is not (email_exist and username_exist):
+            if update_user.id is not (email_exist.id and username_exist.id):
                 return render_template("profile/profile.html",login=login, user=username, uuser=update_user, user_exist=True)
             else:           
                 update_user.email = f_email

@@ -15,7 +15,7 @@ def register():
         password = request.form["password"]
         confirmPassword = request.form["ConfirmPassword"]
 
-        db_user = db.session.query(Users).filter(or_(Users.username==username, Users.email==email)).first()
+        db_user = db.session.query(Users.id).filter(or_(Users.username==username, Users.email==email)).first()
 
         if db_user is None:
             if password is confirmPassword:
