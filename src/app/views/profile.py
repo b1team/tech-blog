@@ -30,7 +30,7 @@ def profile():
             email_exist = db.session.query(Users.id).filter(Users.email==f_email).first()
             username_exist = db.session.query(Users.id).filter(Users.username==f_username).first()
 
-            if update_user != (email_exist and username_exist):
+            if update_user is not (email_exist and username_exist):
                 return render_template("profile/profile.html",login=login, user=username, uuser=update_user, user_exist=True)
             else:           
                 update_user.email = f_email
