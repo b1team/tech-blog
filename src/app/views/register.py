@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for
-from flask import request, flash
+from flask import request
+from sqlalchemy import or_
 from src.app import db
 from src.app.models import Users
 
@@ -14,13 +15,16 @@ def register():
         password = request.form["password"]
         confirmPassword = request.form["ConfirmPassword"]
 
-        db_user = db.session.query(Users).filter(Users.username==username, Users.email==email).first()
+        db_user = db.session.query(Users.id).filter(or_(Users.username==username, Users.email==email)).first()
 
-        if password is confirmPassword and db_user is None:
-            new_user = Users(username=username, password=password, email=email)
-            db.session.add(new_user)
-            db.session.commit()
+        if db_user is None:
+            if password == confirmPassword:
+                new_user = Users(username=username, password=password, email=email)
+                db.session.add(new_user)
+                db.session.commit()
+
+                return redirect(url_for("login_bp.login"))
+        else:
+            return render_template("register/register.html", register_error=True)
             
-            return redirect(url_for("login_bp.login"))
-    
     return render_template("register/register.html")

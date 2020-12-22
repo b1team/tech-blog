@@ -17,7 +17,6 @@ function upload_file(){
 			if (result.isConfirmed) {
                 imagefile.value = "";
                 location.reload();
-
 			}
 		});
     }).catch(function(error){
@@ -37,8 +36,8 @@ function upload_file(){
 function info_update(){
     Swal.fire({
 		icon: "success",
-		title: "Your work has been saved",
+		title: "Info has been update",
 		showConfirmButton: false,
-		timer: 1500,
+		timer: 2000,
 	});
 }

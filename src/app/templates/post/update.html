@@ -3,7 +3,7 @@
 {% block title %} {{ action.title() }} {% endblock %}
 
 {% block head %}
-    <script src="{{ url_for('static', filename='showdown.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/showdown.min.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/simplemde.min.css') }}">
     <script src="{{ url_for('static', filename='js/simplemde.min.js') }}"></script>
 {% endblock %}
@@ -33,8 +33,11 @@
                 </div>
                 <div class="form-group">
                     <label for="body">Body</label>
-                    <textarea name="body" class="form-control" id="postbody">{{ up_post.content }}</textarea>
+                    <div id="editor" style="z-index: 1000000000;">
+                        <textarea name="body" class="form-control" id="postbody">{{ up_post.content }}</textarea>
+                    </div>
                 </div>
+            
 
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

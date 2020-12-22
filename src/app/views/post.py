@@ -150,11 +150,8 @@ def update(id):
             brief = request.form["brief"]
             thumbnail = request.form["thumbnail"]
             body = request.form["body"]
-            slug = "{0}-{1}".format(slugify(title),
-                                    str(datetime.utcnow().timestamp()).replace('.', ''))
 
             post_update.title = title
-            post_update.slug = slug 
             post_update.brief = brief
             post_update.thumbnail = thumbnail
             post_update.content = body
